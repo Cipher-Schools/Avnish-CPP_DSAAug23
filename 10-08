@@ -1,0 +1,75 @@
+10-08-2023
+If you have any doubts or confusion do let me know.
+Implement for remaining as we discussed.
+Keep Learning
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int getData(){
+    cout << "Enter your Data that you need to Insert\n";
+    int data; cin >> data;
+    return data;
+}
+
+int getIndex(){
+    cout << "Enter your index where you need to Insert\n";
+    int index; cin >> index;
+    return index;
+}
+
+bool isFull(int index, int size){
+    if(index == size - 1){
+        return true;
+    }
+    return false;
+}
+
+bool isValid(int index, int n){
+    if(index < 0 or index >= n){
+        return false;
+    }
+    return true;
+}
+
+void printArray(int arr[], int n){
+    cout << "Array => ";
+    for(int i = 0; i <= n; i++){
+        cout << arr[i] << " ";
+    }
+    cout <<"\n";
+}
+
+int main(){
+    int n;
+    cout << "Enter the size of Array\n";
+    cin >> n;
+    int arr[n];
+    int lastElementIndex = -1; // bcoz Array is empty;
+    while(true){
+        int data = getData();
+        if(isFull(lastElementIndex, n)){ // array is full
+            int index = getIndex();
+            if(index == -10){
+                cout << "Bye\n";
+                break;
+            }
+            if(isValid(index, n) == false){
+                cout << "Please enter valid Index\n";
+            }
+            else{
+                // shifting work
+                for(int i = n - 1; i >= index; i--){
+                    arr[i] = arr[i - 1];
+                }
+                arr[index] = data;
+            }
+        }
+        else{
+            arr[lastElementIndex + 1] = data;
+            lastElementIndex++;
+        }
+        printArray(arr, lastElementIndex);
+    }
+    return 0;
+}
