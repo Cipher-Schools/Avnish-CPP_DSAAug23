@@ -1,0 +1,153 @@
+if you have any doubts please please ask.
+keep learning.
+
+#include<iostream>
+using namespace std;
+
+void swapValues(int* a, int* b){
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+    cout << endl;
+    cout << a << "\n" << b;
+}
+
+int main(){
+    int a = 10;
+    int b = 20;
+    cout << "in main method = " << &a << "\t" << &b;
+    swapValues(&a, &b);
+    //cout << a << "\n" << b;
+    return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+void swapValues(int a, int b){
+    int temp = a;
+    a = b;
+    b = temp;
+    cout << endl;
+    cout << &a << "\n" << &b;
+}
+
+int main(){
+    int a = 10;
+    int b = 20;
+    cout << "in main method = " << &a << "\t" << &b;
+    swapValues(a, b);
+    cout << a << "\n" << b;
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+void callByValueMethod(int a, int b){
+    cout << "In callByValueMethod " << "Address of A = " << &a << " Address of B = " << &b << endl;
+    a = 100;
+    b = -145;
+}
+void callByAddresssMethod(int* a, int* b){
+    cout << "In callByAddresssMethod " << "Address of A = " << a << " Address of B = " << b << endl;
+}
+void callByReference(int& a, int & b){
+    cout << "In callByReference " << "Address of A = " << &a << " Address of B = " << &b << endl;
+}
+
+int main(){
+    int a = 10;
+    int b = 20;
+    cout << "In Main " << "Address of A = " << &a << " Address of B = " << &b << endl;
+    // call by value
+    // callByValueMethod(a, b);
+    // callByAddresssMethod(&a, &b);
+    callByReference(a, b);
+    return 0;
+}
+
+
+
+#include<iostream>
+using namespace std;
+
+
+
+int main(){
+    int arr[2] = {44, 59};
+    for(int i = 0; i < 2; i++){
+        cout << "Value of Index " << i << " = " << arr[i];
+        cout << " , Address of INdex" << i << " = " << &arr[i] << endl;
+    }
+    cout << endl;
+    int* ptr = arr;
+    for(int i = 0; i < 2; i++){
+        ptr[i] = 11;
+    }
+    for(int i = 0; i < 2; i++){
+        cout << "Value of Index " << i << " = " << arr[i];
+        cout << " , Address of INdex" << i << " = " << &arr[i] << endl;
+    }
+    return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+void fn(void *ptr, int storage){
+    if(storage == sizeof(char)){
+        char * charPointer;
+        charPointer = (char*)ptr;
+        *charPointer = 'F';
+    }
+    else if(storage == sizeof(int)){
+        int* intPointer = (int*)ptr;
+        *intPointer = 101;
+    }
+}
+
+int main(){
+    char gender = 'M';
+    int value = 10;
+    float decimalVal = 45.3;
+    // we are psssing the address
+    fn(&gender, sizeof(gender));
+    cout << gender;
+    fn(&value, sizeof(value));
+    cout << '\n' << value;
+    fn(&decimalVal, sizeof(decimalVal));
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+void fn(void *ptr, int storage){
+    if(storage == sizeof(char)){
+        char * charPointer;
+        charPointer = (char*)ptr;
+        *charPointer = 'F';
+    }
+    else if(storage == sizeof(float)){
+        cout << "in else if";
+        float* intPointer = (float*)ptr;
+        *intPointer = 101;
+    }
+}
+
+int main(){
+    char gender = 'M';
+    int value = 10;
+    float decimalVal = 45.3;
+    fn(&value, sizeof(value));
+    cout << value << endl;
+    
+    return 0;
+}
+
+
+
+
