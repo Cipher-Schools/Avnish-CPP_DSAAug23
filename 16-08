@@ -1,0 +1,109 @@
+16-08
+if you have any doubts please please ask.
+keep learning.
+
+#include<iostream>
+using namespace std;
+
+class Car{
+string companyName;
+string modelName;
+int manufacturingDate;
+public:
+Car(string cname, string mname, int mdate){
+companyName = cname;
+modelName = mname;
+manufacturingDate = mdate;
+}
+void setCName(string cname){
+companyName = cname;
+}
+void showCarSpecs(){
+cout << "car details = " << "\n";
+cout << "companyName = " << companyName << "\n";
+cout << "modelName = " << modelName << '\n';
+cout << "manufacturingDate = " << manufacturingDate << '\n';
+}
+};
+
+int main(){
+Car c1("BMW", "X3", 1608);
+c1.showCarSpecs();
+Car c2 = c1;
+c2.showCarSpecs();
+c1.setCName("Tata");
+c1.showCarSpecs();
+c2.showCarSpecs();
+return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+class Car{
+  string companyName;
+  string modelName;
+  int manufacturingDate;
+  public:
+    Car(string cname, string mname, int mdate){
+        companyName = cname;
+        modelName = mname;
+        manufacturingDate = mdate;
+    }
+    Car(Car& oldObject){
+        companyName = oldObject.companyName;
+        modelName = oldObject.modelName;
+        manufacturingDate = oldObject.manufacturingDate;
+    }
+    void setCName(string cname){
+        companyName = cname;
+    }
+    void showCarSpecs(){
+        cout << "car details = " << "\n";
+        cout << "companyName = " << companyName << "\n";
+        cout << "modelName = " << modelName << '\n';
+        cout << "manufacturingDate = " << manufacturingDate << '\n';
+    }
+};
+
+int main(){
+    Car c1("BMW", "X3", 1608);
+    c1.showCarSpecs();
+    Car c2(c1);
+    c2.showCarSpecs();
+    c1.setCName("tata");
+    c1.showCarSpecs();
+    c2.showCarSpecs();
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+
+void BubbleSort(int arr[], int size){
+    for(int itr = 1; itr <= size - 1; itr++){
+        for(int j = 0; j < size - itr; j++){
+            int currEle = arr[j]; // 5
+            int nextEle = arr[j + 1]; // 1
+            // 5, 1, 6, 7, 15, 81
+            if(nextEle < currEle){
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+int main(){
+    int n; cin >> n ;
+    int arr[n];
+    for(int i = 0; i < n; i++){
+        cin >> arr[i]; // just to take input;
+    }
+    BubbleSort(arr, n);
+    for(int i = 0; i < n; i++){
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
