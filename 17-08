@@ -1,0 +1,88 @@
+17-08-2023
+If you have any doubts or confusion do let me know.
+Keep Learning
+
+#include<iostream>
+using namespace std;
+
+void SelectionSort(int arr[], int size){
+    int miniIndex = -1;
+    for(int i = 0; i < size - 1; i++){
+        miniIndex = i;
+        for(int j = i + 1; j < size; j++){
+            if(arr[miniIndex] > arr[j]){
+                miniIndex = j;
+            }
+        }
+        swap(arr[i], arr[miniIndex]);
+    }
+}
+
+int main(){
+    int n ; cin >> n;
+    int arr[n];
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+    }
+    SelectionSort(arr, n);
+    cout << "After sorting = ";
+    for(int i = 0; i < n; i++){
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+void swapValues(int& a, int& b){
+    int temp = a;
+    a = b;
+    b = temp;
+}
+
+void InsertionSort(int arr[], int size){
+    for(int i = 1; i < size; i++){
+        for(int j = i - 1; j >= 0; j--){
+            if(arr[j] > arr[j + 1]){
+                swapValues(arr[j], arr[j + 1]);
+            }
+            else{
+                break;
+            }
+        }
+    }
+}
+
+int main(){
+    int n ; cin >> n;
+    int arr[n];
+    for(int i = 0; i < n; i++){
+        cin >> arr[i];
+    }
+    InsertionSort(arr, n);
+    cout << "After sorting = ";
+    for(int i = 0; i < n; i++){
+        cout << arr[i] << " ";
+    }
+    return 0;
+}
+
+class Solution {
+public:
+    void reverse(vector<int>& arr, int start, int end){
+        while(start < end){
+            swap(arr[start++], arr[end--]);
+        }
+        return ;
+    }
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        k = k % n;
+        reverse(nums, 0, n - k - 1);
+        reverse(nums, n - k, n - 1);
+        reverse(nums, 0, n - 1);
+    }
+};
+
+
