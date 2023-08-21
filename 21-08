@@ -1,0 +1,104 @@
+21-08
+If you have any doubts or confusion do let me know.
+Keep Learning
+
+
+#include<iostream>
+using namespace std;
+
+
+void print(int arr[], int n, int start){
+    if(start < 0){
+        return ;
+    }
+    cout << arr[start] << " ";
+    return print(arr, n, start - 1);
+}
+
+int main(){
+    int arr[3] = {1, 10, 45};
+    print(arr, 3, 2);
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+class A{
+    private:
+        int privateVairable;
+    protected:
+        int protectedVariable;
+    public:
+        int publicVariable;
+        A(){
+            privateVairable = 11;
+            protectedVariable = 14;
+            publicVariable = -145;
+        }
+        
+    // work
+    friend class B;
+};
+class B{
+    void SomeMethodToAccessAInfo(A& obj){
+        cout << obj.privateVairable << "\n";
+        cout << obj.protectedVariable << "\n";
+        cout << obj.publicVariable << "\n";
+    }
+    public:
+        void ExposeAData(A& obj){
+            SomeMethodToAccessAInfo(obj);
+        }
+        void ChangeData(A& obj){
+            obj.privateVairable = 1;
+            obj.protectedVariable = 1;
+            obj.publicVariable = 1;
+            ExposeAData(obj);
+        }
+};
+
+int main(){
+    A objA;
+    B objB;
+    objB.ExposeAData(objA);
+    objB.ExposeAData(objA);
+    return 0;
+}
+
+
+
+#include<iostream>
+using namespace std;
+
+class A{
+    private:
+        int privateVairable;
+    protected:
+        int protectedVariable;
+    public:
+        int publicVariable;
+        A(){
+            privateVairable = 11;
+            protectedVariable = 14;
+            publicVariable = -145;
+        }
+        
+    // work
+    //friend class B;
+    friend void ExposeDataA(A& obj);
+};
+void ExposeDataA(A& obj){
+    cout << obj.privateVairable << "\n";
+    cout << obj.protectedVariable << "\n";
+    cout << obj.publicVariable << "\n";
+}
+
+int main(){
+    A objA;
+    ExposeDataA(objA);
+    return 0;
+}
+
+and many more examples that were discussed in the class
