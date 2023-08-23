@@ -1,0 +1,128 @@
+23-08
+If you have any doubts or confusion do let me know.
+Keep Learning
+
+#include<iostream>
+using namespace std;
+
+int* sum(int a, int b){
+    int add = 0; // local variabe
+    add = a + b;
+    return &add;
+}
+
+int main(){
+    int a = 10;
+    int b = 11;
+    int* ans = sum(a, b);
+    //address &x
+    // *x for value
+    cout << *ans;
+    return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+int main(){
+    int* pointerVariable = (int*)malloc(sizeof(int));
+    free(pointerVariable);
+    pointerVariable = null;
+    
+    return 0;
+}
+
+#include<iostream>
+using namespace std;
+
+int main(){
+    int val = 99;
+    void* pointerVariable = &val;
+    cout << "data = " << *((int*)pointerVariable);
+    char gender = 'F';
+    pointerVariable = &gender;
+    cout << "data = " << *((char*)pointerVariable);
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+int main(){
+    int val = 10;
+    int val2;
+    int* pointerVariable; // this is wild pointer
+    pointerVariable = &val; // normal
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+class A{
+    int val;
+    public:
+    A(){
+        val = 0;
+    }
+    A(int value){
+        val = value;
+    }
+    void changeVal(int value){
+        val = value;
+    }
+    void showVal(){
+        cout << "Val = " << val << endl;
+    }
+};
+
+int main(){
+    A obj(14);
+    A* pointerVariable = &obj;
+    pointerVariable->showVal();
+    pointerVariable->changeVal(45);
+    pointerVariable->showVal();
+    
+    
+    
+    obj.showVal();
+    return 0;
+}
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+
+
+int main(){
+    string str;
+    cin >> str;
+    sort(str.begin(), str.end());
+    cout << str;
+    if(str[1] == 'h'){
+        cout << "yes goutam its woking";
+    }
+    return 0;
+}
+
+
+#include<iostream>
+#include<string>
+#include<algorithm>
+using namespace std;
+
+
+
+int main(){
+    string str;
+    getline(cin, str);
+    //sort(str.begin(), str.end());
+    cout << str;
+    
+    return 0;
+}
+
