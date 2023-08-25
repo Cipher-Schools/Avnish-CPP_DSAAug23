@@ -1,0 +1,330 @@
+25-08
+If you have any doubts or confusion do let me know.
+Keep Learning
+complete the homework
+
+
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* next;
+        Node(){
+          data = 0;
+          next = NULL;
+        }
+        Node(int data){
+          this->data = data;
+          next = NULL;
+        }
+};
+
+class LinkedList{
+    Node* head;
+    public:
+        LinkedList(){
+            head = NULL;
+        }
+        void showLinkedList(){
+            Node* cur = head;
+            while(cur){
+                cout << cur->data << " ";
+                cur = cur->next;
+            }
+            cout << "\n";
+        }
+            
+        int getLength(){
+            int len = 0;
+            Node* cur = head;
+            while(cur != NULL){
+                len++;
+                cur = cur->next;
+            }
+            return len;
+        }
+        
+        bool Insert(int data, int index){
+            int len = getLength();
+            if(index < 0 or index > len){ // invalid index check
+                return false;
+            }
+            Node* newNode = new Node(data); // to make new Node
+            Node* cur = head; // to make a copy for travel purpose
+            // because we cannot change head
+            if(index == 0){ // insertion at begin
+                newNode->next = head;
+                head = newNode;
+            }
+            else{
+                while(index - 1 > 0){ // to stop one step before
+                    index--; // you are moving
+                    cur = cur->next; // move the cur
+                }
+                newNode->next = cur->next; // to store the remaining part or to make the conn with right part before
+                cur->next = newNode;
+            }
+                return true;
+                // work is done
+        }
+        bool Delete(int index){
+            cout << "in delete method\n";
+            if(index < 0 or index >= getLength()){
+                return false; // because we are following zero based indexing;
+            }
+            
+            // just include one if statement depending upon your indexing
+            if(index == 0 ){ // if(index == 1)
+                Node* firstNode = head;
+                head = head->next;
+                free(firstNode);
+                return true;
+            }
+            Node* prev = NULL;
+            Node* cur = head;
+            while(index > 0){
+                prev = cur;
+                cur = cur->next;
+                index--;
+            }
+            prev->next = cur->next;
+            free(cur);
+            return true;
+        }
+
+};
+
+int main(){
+    LinkedList o;
+    if(o.Insert(10, 0)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    o.showLinkedList();
+    cout << o.getLength() << "\n";
+    
+    LinkedList obj;
+    if(obj.Insert(10, 0)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    if(obj.Insert(11, 1)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    if(obj.Insert(12, 2)){
+        cout << "Success\n";
+    }
+    else{
+    cout << "Some failure\n";
+    }
+    if(obj.Insert(13, 3)){
+        cout << "Success\n";
+    }
+    else{
+    cout << "Some failure\n";
+    }
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    if(obj.Insert(15, 1)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    
+    obj.Delete(0);
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    obj.Delete(3);
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    return 0;
+}
+
+
+
+#include<iostream>
+using namespace std;
+
+class Node{
+    public:
+        int data;
+        Node* next;
+        Node(){
+          data = 0;
+          next = NULL;
+        }
+        Node(int data){
+          this->data = data;
+          next = NULL;
+        }
+};
+
+class LinkedList{
+    Node* head;
+    public:
+        LinkedList(){
+            head = NULL;
+        }
+        void showLinkedList(){
+            Node* cur = head;
+            if(cur != NULL){
+                do{
+                    cout << cur->data << " ";
+                    cur = cur->next;
+                }while(cur != head);
+            }
+            cout << "\n";
+        }
+            
+        int getLength(){
+            int len = 0;
+            Node* cur = head;
+            if(cur != NULL){
+                do{
+                    len++;
+                    cur = cur->next;
+                }while(cur != head);
+            }
+            return len;
+        }
+        
+        bool Insert(int data, int index){
+            int len = getLength();
+            if(index < 0 or index > len){ // invalid index check
+                return false;
+            }
+            Node* newNode = new Node(data); // to make new Node
+            Node* cur = head; // to make a copy for travel purpose
+            // because we cannot change head
+            if(index == 0){ // insertion at begin
+                newNode->next = head;
+                if(newNode->next == NULL){
+                    newNode->next = newNode;
+                }
+                Node* cur = head;
+                if(cur != NULL){
+                    do{
+                        len++;
+                        cur = cur->next;
+                    }while(cur != head);
+                }
+                if(cur != NULL){
+                    cur->next = newNode;
+                }
+                head = newNode;
+            }
+            else{
+                while(index - 1 > 0){ // to stop one step before
+                    index--; // you are moving
+                    cur = cur->next; // move the cur
+                }
+                newNode->next = cur->next; // to store the remaining part or to make the conn with right part before
+                cur->next = newNode;
+            }
+            return true;
+            // work is done
+        }
+        bool Delete(int index){
+            if(index < 0 or index >= getLength()){
+                return false; // because we are following zero based indexing;
+            }
+            
+            // just include one if statement depending upon your indexing
+            if(index == 0 ){ // if(index == 1)
+                Node* firstNode = head;
+                Node* oHead = head;
+                head = head->next;
+                if(oHead == head){
+                    head = NULL;
+                }
+                Node* cur = oHead;
+                if(cur != NULL){
+                    do{
+                        cout << cur->data << " ";
+                        cur = cur->next;
+                    }while(cur != head);
+                }
+                if(cur != NULL){
+                    cur->next = head;
+                }
+                free(firstNode);
+                return true;
+                }
+            Node* prev = NULL;
+            Node* cur = head;
+            while(index > 0){
+                prev = cur;
+                cur = cur->next;
+                index--;
+            }
+            prev->next = cur->next;
+            free(cur);
+            return true;
+        }
+
+};
+
+int main(){
+    LinkedList o;
+    o.showLinkedList();
+    cout << o.getLength() << endl;
+    if(o.Insert(10, 0)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    o.showLinkedList();
+    cout << o.getLength() << "\n";
+    
+    LinkedList obj;
+    if(obj.Insert(10, 0)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    if(obj.Insert(11, 1)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    if(obj.Insert(12, 2)){
+        cout << "Success\n";
+    }
+    else{
+    cout << "Some failure\n";
+    }
+    if(obj.Insert(13, 3)){
+        cout << "Success\n";
+    }
+    else{
+    cout << "Some failure\n";
+    }
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    if(obj.Insert(15, 1)){
+        cout << "Success\n";
+    }
+    else{
+        cout << "Some failure\n";
+    }
+    obj.showLinkedList();
+    cout << obj.getLength() << endl;
+    
+    
+    return 0;
+}
