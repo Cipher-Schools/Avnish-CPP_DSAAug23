@@ -1,0 +1,36 @@
+// 28-08
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+destructors, object array, some problems and doubts
+#include <bits/stdc++.h>
+using namespace std;
+
+class Sahil{
+char* secret;
+int size;
+public:
+Sahil(char* s){
+size = strlen(s);
+secret = new char(size + 2);
+// a = 10;
+// secret = s;
+strcpy(secret, s);
+}
+~Sahil(){
+cout << "in desc";
+delete [] secret;
+}
+void show(){
+cout << secret << endl;
+}
+};
+
+int main(){
+
+string sec= "Sahil hates sir";
+char* name=&sec[0];
+Sahil sahil(name);
+sahil.show();
+
+return 0;
+}
