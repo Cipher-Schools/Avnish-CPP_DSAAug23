@@ -1,0 +1,164 @@
+#include<iostream>
+using namespace std;
+
+class Math{
+    int a;
+    int b;
+    public:
+        Math(){
+            a = 0; b = 0;
+        }
+        Math(int a, int b){
+            this->a = a;
+            this->b = b;
+        }
+        void operator *(Math obj){
+            cout << obj.a << " " << a << endl;
+            cout << "Sum = " << (obj.a * a);
+        }
+};
+
+int main(){
+    Math obj1(10, 20);
+    Math obj2(50, 60);
+    obj2 * obj1;
+    return 0;
+}
+
+#include <iostream>
+using namespace std;
+
+class Math{
+    int value1;
+    int value2;
+    public:
+        Math(){
+            value1 = 0;
+            value2 = 0;
+        }
+        Math(int value1, int value2 = 0){
+            this->value1 = value1;
+            this->value2 = value2;
+        }
+        void operator ++(){
+            value1 = value1 / 3;
+            value2 *= 3;
+        }
+        void show(){
+            cout << "value1 = " << value1 << "\n";
+            cout << "value2 = " << value2 << "\n";
+        }
+};
+
+int main(){
+    Math obj(15, 21);
+    ++obj;
+    obj.show();
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+void menu(){
+    cout << "1 - insert\n";
+    cout << "2 - display\n";
+    cout << "3 - length\n";
+}
+class Node{
+    public:
+        int data;
+        Node* next;
+        Node* prev;
+        Node(){
+            data = 0;
+            next = NULL;
+            prev = NULL;
+        }
+        Node(int data){
+            this->data = data;
+            next = NULL;
+            prev = NULL;
+        }
+};
+
+class DoubleLinkedList{
+    Node* head;
+    public:
+        DoubleLinkedList(){
+            head = NULL;
+        }
+        int getLength(){
+            int length = 0;
+            Node* cur = head;
+            while(cur){
+                length++;
+                cur = cur->next;
+            }
+            return length;
+        }
+        void showList(){
+            Node* cur = head;
+            while(cur){
+                cout << cur->data << " ";
+                cur = cur->next;
+            }
+            cout << "\n";
+        }
+        bool insert(int data, int index){
+            if(index < 0 or index > getLength()){
+                return false;
+            }
+            Node* newNode = new Node(data);
+            if(index == 0){
+                newNode->next = head;
+                if(head != NULL){
+                    head->prev = newNode;
+                }
+                head = newNode;
+                return true;
+            }
+            Node* cur = head;
+            while(index - 1 > 0){
+                cur = cur->next;
+                index--;
+            }
+            newNode->next = cur->next;
+            newNode->prev = cur;
+            if(cur->next != NULL){
+                cur->next->prev = newNode;
+            }
+            cur->next = newNode;
+            return true;
+        }
+};
+
+int main(){
+    DoubleLinkedList list;
+    while(true){
+        menu();
+        int choice; cin >> choice;
+        if(choice == 1){
+            int data; cin >> data;
+            int index; cin >> index;
+            if(list.insert(data, index)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else if(choice == 2){
+            list.showList();
+        }
+        else if(choice == 3){
+            cout << "list size = " << list.getLength() << "\n";
+        }
+        else{
+            cout << "Bye\n";
+            break;
+        }
+    }
+    return 0;
+}
