@@ -1,0 +1,304 @@
+// 30-08
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+// code for doubly linked list and circular doubly linked list
+#include<iostream>
+using namespace std;
+
+void menu(){
+    cout << "1 - insert\n";
+    cout << "2 - display\n";
+    cout << "3 - length\n";
+    cout << "4 - delete\n";
+}
+class Node{
+    public:
+        int data;
+        Node* next;
+        Node* prev;
+        Node(){
+            data = 0;
+            next = NULL;
+            prev = NULL;
+        }
+        Node(int data){
+            this->data = data;
+            next = NULL;
+            prev = NULL;
+        }
+};
+
+class DoubleLinkedList{
+    Node* head;
+    public:
+        DoubleLinkedList(){
+            head = NULL;
+        }
+        int getLength(){
+            int length = 0;
+            Node* cur = head;
+            while(cur){
+                length++;
+                cur = cur->next;
+            }
+            return length;
+        }
+        void showList(){
+            Node* cur = head;
+            while(cur){
+                cout << cur->data << " ";
+                cur = cur->next;
+            }
+            cout << "\n";
+        }
+        bool insert(int data, int index){
+            if(index < 0 or index > getLength()){
+                return false;
+            }
+            Node* newNode = new Node(data);
+            if(index == 0){
+                newNode->next = head;
+                if(head != NULL){
+                    head->prev = newNode;
+                }
+                head = newNode;
+                return true;
+            }
+            Node* cur = head;
+            while(index - 1 > 0){
+                cur = cur->next;
+                index--;
+            }
+            newNode->next = cur->next;
+            newNode->prev = cur;
+            if(cur->next != NULL){
+                cur->next->prev = newNode;
+            }
+            cur->next = newNode;
+            return true;
+        }
+        bool deletee(int index){
+            if(index < 0 or index >= getLength()){
+                return false;
+            }
+            Node* cur = head;
+            if(index == 0){
+                Node* cur = head;
+                head = head->next;
+                if(head){
+                    head->prev = NULL;
+                }
+                free(cur);
+                return true;
+            }
+            while(index - 1 > 0){
+                cur = cur->next;
+                index--;
+            }
+            Node* toDelete = cur->next;
+            if(cur->next){
+                cur->next = cur->next->next;
+            }
+            if(cur->next){
+                cur->next->prev = cur;
+            }
+            free(toDelete);
+            return true;
+        }
+};
+
+int main(){
+    DoubleLinkedList list;
+    while(true){
+        menu();
+        int choice; cin >> choice;
+        if(choice == 1){
+            int data; cin >> data;
+            int index; cin >> index;
+            if(list.insert(data, index)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else if(choice == 2){
+            list.showList();
+        }
+        else if(choice == 3){
+            cout << "list size = " << list.getLength() << "\n";
+        }
+        else if(choice == 4){
+            int index; cin >> index;
+            if(list.deletee(index)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else{
+            cout << "Bye\n";
+            break;
+        }
+    }
+    return 0;
+}
+
+
+#include<iostream>
+using namespace std;
+
+void menu(){
+    cout << "1 - insert\n";
+    cout << "2 - display\n";
+    cout << "3 - length\n";
+    cout << "4 - delete\n";
+}
+class Node{
+    public:
+        int data;
+        Node* next;
+        Node* prev;
+        Node(){
+            data = 0;
+            next = NULL;
+            prev = NULL;
+        }
+        Node(int data){
+            this->data = data;
+            next = NULL;
+            prev = NULL;
+        }
+};
+
+class DoubleLinkedList{
+    Node* head;
+    public:
+        DoubleLinkedList(){
+            head = NULL;
+        }
+        int getLength(){
+            int length = 0;
+            Node* cur = head;
+            if(cur != NULL){
+                do{
+                    length++;
+                    cur = cur->next;
+                }while(cur != head);
+            }
+            return length;
+        }
+        void showList(){
+            Node* cur = head;
+            if(cur != NULL){
+                do{
+                    cout << cur->data << " ";
+                    cur = cur->next;
+                }while(cur != head);
+                cout << "\n";
+            }
+        }
+        bool insert(int data, int index){
+            if(index < 0 or index > getLength()){
+                return false;
+            }
+            Node* newNode = new Node(data);
+            if(index == 0){
+                newNode->next = head;
+                if(head){
+                    newNode->prev = head->prev;
+                    head->prev->next = newNode;
+                    head->prev = newNode;
+                }
+                else{
+                    newNode->prev = newNode;
+                    newNode->next = newNode;
+                }
+                head = newNode;
+                return true;
+            }
+            Node* cur = head;
+            while(index - 1 > 0){
+                cur = cur->next;
+                index--;
+            }
+            newNode->next = cur->next;
+            newNode->prev = cur;
+            if(cur->next != NULL){
+                cur->next->prev = newNode;
+            }
+            cur->next = newNode;
+            if(newNode->next == NULL){
+                newNode->next = head;
+                head->prev = newNode;
+            }
+            return true;
+        }
+        bool deletee(int index){
+            if(!head or index < 0 or index >= getLength()){
+                return false;
+            }
+            Node* cur = head;
+            if(index == 0){
+                if(head == head->next){
+                    head = NULL;
+                }
+                else{
+                    head->prev->next = head->next;
+                    head->next->prev = head->prev;
+                    head = head->next;
+                }
+                free(cur);
+                return true;
+            }
+            while(index - 1 > 0){
+                cur = cur->next;
+                index--;
+            }
+            // a -> b -> c -> d -> e
+            Node* toDelete = cur->next;
+            cur->next->next->prev = cur;
+            cur->next = cur->next->next;
+            free(toDelete);
+            return true;
+        }
+};
+
+int main(){
+    DoubleLinkedList list;
+    while(true){
+        menu();
+        int choice; cin >> choice;
+        if(choice == 1){
+            int data; cin >> data;
+            int index; cin >> index;
+            if(list.insert(data, index)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else if(choice == 2){
+            list.showList();
+        }
+        else if(choice == 3){
+            cout << "list size = " << list.getLength() << "\n";
+        }
+        else if(choice == 4){
+            int index; cin >> index;
+            if(list.deletee(index)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else{
+            cout << "Bye\n";
+            break;
+        }
+    }
+    return 0;
+}
