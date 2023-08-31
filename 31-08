@@ -1,0 +1,238 @@
+// 31-08
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+
+#include <iostream>
+using namespace std;
+#define capacity 5
+
+void menu(){
+    cout << "1-push\n";
+    cout << "2-pop\n";
+    cout << "3-peek\n";
+    cout << "4-show\n";
+}
+
+class StackContainer{
+    int top;
+    public:
+        int arr[capacity];
+        StackContainer(){
+            top = -1;
+        }
+        bool isFull(){
+            if(top == capacity - 1){
+                return true;
+            }
+            return false;
+        }
+        bool isEmpty(){
+            if(top == -1){
+                return true;
+            }
+            return false;
+        }
+        bool push(int data){
+            if(isFull()){
+                return false;
+            }
+            arr[top + 1] = data;
+            top++;
+            return true;
+        }
+        int pop(){
+            if(isEmpty()){
+                return -1;
+            }
+            int lastEle = arr[top];
+            top--;
+            return lastEle;
+        }
+        int peek(){
+            if(isEmpty()){
+                return -1;
+            }
+            return arr[top];
+        }
+        void show(){
+            for(int i = 0; i <= top; i++){
+                cout << arr[i] << " ";
+            }
+            cout << "\n";
+        }
+};
+
+
+int main(){
+    StackContainer stack;
+    while(true){
+        menu();
+        int choice; cin >> choice;
+        if(choice == 1){
+            int data; cin >> data;
+            stack.push(data);
+        }
+        else if(choice == 2){
+            int response = stack.pop();
+            if(response == -1){
+                cout << "error cannot remove the ele from empty container\n";
+            }
+            else{
+                cout << "ele = " << response << "\n";
+            }
+        }
+        else if(choice == 3){
+            int response = stack.peek();
+            if(response == -1){
+                cout << "error cannot read the ele from empty container\n";
+            }
+            else{
+                cout << "ele = " << response << "\n";
+            }
+        }
+        else if(choice == 4){
+            stack.show();
+        }
+        else{
+            cout << "Bye\n";
+            break;
+        }
+    }
+    return 0;
+}
+
+
+
+#include <iostream>
+using namespace std;
+#define capacity 5
+
+void menu(){
+    cout << "1-EnQueue\n";
+    cout << "2-DeQueue\n";
+    cout << "3-peek front\n";
+    cout << "4-peek rear\n";
+    cout << "5-show\n";
+}
+
+class QueueContainer{
+    int front;
+    int rear;
+    public:
+        int arr[capacity];
+        QueueContainer(){
+            front = -1;
+            rear = -1;
+        }
+        bool isFull(){
+            if(rear == capacity - 1){
+                return true;
+            }
+            return false;
+        }
+        bool isEmpty(){
+            if(front == -1){
+                return true;
+            }
+            return false;
+        }
+        bool enQueue(int data){
+            if(isFull()){
+                return false;
+            }
+            if(isEmpty()){
+                front = 0;
+            }
+            arr[rear + 1] = data;
+            rear++;
+            return true;
+        }
+        void leftShifting(){
+            for(int i = 0; i < rear - 1; i++){
+                arr[i] = arr[i + 1];
+            }
+            rear--;
+            if(rear == -1){
+                front = -1;
+            }
+        }
+        int deQueue(){
+            if(isEmpty()){
+                return -1;
+            }
+            int lastEle = arr[front];
+            leftShifting();
+            return lastEle;
+        }
+        int peekFront(){
+            if(isEmpty()){
+                return -1;
+            }
+            return arr[front];
+        }
+        int peekRear(){
+            if(isEmpty()){
+                return -1;
+            }
+            return arr[rear];
+        }
+        void show(){
+            for(int i = 0; i <= rear; i++){
+                cout << arr[i] << " ";
+            }
+            cout << "\n";
+        }
+};
+
+
+int main(){
+    QueueContainer queue;
+    while(true){
+        menu();
+        int choice; cin >> choice;
+        if(choice == 1){
+            int data; cin >> data;
+            if(queue.enQueue(data)){
+                cout << "done\n";
+            }
+            else{
+                cout << "error\n";
+            }
+        }
+        else if(choice == 2){
+            int response = queue.deQueue();
+            if(response == -1){
+                cout << "error cannot remove the ele from empty container\n";
+            }
+            else{
+                cout << "ele = " << response << "\n";
+            }
+        }
+        else if(choice == 3){
+            int response = queue.peekFront();
+            if(response == -1){
+                cout << "error cannot read the ele from empty container\n";
+            }
+            else{
+                cout << "ele = " << response << "\n";
+            }
+        }
+        else if(choice == 4){
+            int response = queue.peekRear();
+            if(response == -1){
+                cout << "error cannot read the ele from empty container\n";
+            }
+            else{
+                cout << "ele = " << response << "\n";
+            }
+        }
+        else if(choice == 5){
+            queue.show();
+        }
+        else{
+            cout << "Bye\n";
+            break;
+        }
+    }
+    return 0;
+}
