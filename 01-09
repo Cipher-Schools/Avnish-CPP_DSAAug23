@@ -1,0 +1,117 @@
+// 01-09
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int priority(char ch){
+    if(ch == '^'){
+        return 3;
+    }
+    else if(ch == '*' or ch == '/'){
+        return 2;
+    }
+    else if(ch == '+' or ch == '-'){
+        return 1;
+    }
+    return -1;
+}
+
+string InfixToPostFix(string input){
+    stack<char> s;
+    string ans = "";
+    for(int i = 0; i < input.length(); i++){
+        char ch = input[i];
+        if((ch >= 'a' and ch <= 'z') 
+             or (ch >= 'A' and ch <= 'Z')
+             or (ch >= '0' and ch <= '9')){
+            ans += ch;
+        }
+        else if(ch == '('){
+            s.push('(');
+        }
+        else if(ch == ')'){
+            while(s.top() != '('){
+                ans += s.top();
+                s.pop();
+            }
+            s.pop();
+        }
+        else{
+            // you are now a operator
+            // !s.empty()
+            while(s.size() != 0 and priority(ch) <= priority(s.top())){
+                ans += s.top();
+                s.pop();
+            }
+            s.push(ch);
+        }
+    }
+    // there might be a case when you have something left in the stack;
+    while(s.size() != 0){
+        ans += s.top();
+        s.pop();
+    }
+    return ans;
+}
+
+int main(){
+    string inputInfix; cin >> inputInfix;
+    cout << InfixToPostFix(inputInfix);
+    return 0;
+}
+
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// To check if character is operator or not
+bool check_op(char x)
+{
+if(x =='+'|| x== '-'|| x== '/'|| x=='*')
+ return true;
+else
+        return false;
+}
+
+// Convert prefix to Postfix expression
+string prefixToPostfix(string str)
+{
+    reverse(str.begin(), str.end());
+stack<string> s;
+int length = str.size();
+
+    for (int i = 0; i <length; i++)
+{
+ if (check_op(str[i]))
+ {
+ string op1 = s.top();
+ s.pop();
+ string op2 = s.top();
+ s.pop();
+
+ string temp = op1 + op2 + str[i];
+
+ s.push(temp);
+ }
+
+ else 
+        {
+
+ s.push(string(1, str[i]));
+ }
+}
+
+return s.top();
+}
+
+// Driver Code
+int main()
+{
+string str1 = "*+AB-CD";
+string str = prefixToPostfix(str1);
+cout<<"The postfix string is: "<<str<<endl;
+return 0;
+}
