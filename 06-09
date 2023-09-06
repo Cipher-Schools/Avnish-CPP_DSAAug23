@@ -1,0 +1,26 @@
+// 06-09
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+
+complete the homework
+
+class Solution {
+public:
+    TreeNode* dfs(TreeNode* cur, int target){
+        if(cur == NULL){
+            return new TreeNode(target);
+        }              
+        if(cur->val < target){
+            cur->right = dfs(cur->right, target);
+        }
+        else if(cur->val > target){
+            cur->left = dfs(cur->left, target);
+        }
+        return cur;
+    }
+    TreeNode* insertIntoBST(TreeNode* root, int val) {
+        return dfs(root, val);
+    }
+};
+
+
