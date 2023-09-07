@@ -1,0 +1,138 @@
+// 07-09
+// If you have any doubts or confusion do let me know.
+// Keep Learning
+
+complete the homework
+
+class Solution {
+public:
+    void dfs(TreeNode* root, int low, int high, int& ans){
+        if(root == NULL){
+            return ;
+        }
+        if(root->val >= low and root->val <= high){
+            ans += root->val;
+        }
+        dfs(root->left, low, high, ans);
+        dfs(root->right, low, high, ans);
+    }
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        int ans = 0;
+        dfs(root, low, high, ans);
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    int rangeSumBST(TreeNode* root, int low, int high) {
+        queue<TreeNode*> q;
+        q.push(root);
+        int ans = 0;
+        while(q.size() > 0){
+            TreeNode* cur = q.front();
+            q.pop();
+            if(cur->val >= low and cur->val <= high){
+                ans += cur->val;
+            }
+            if(cur->left != NULL){
+                q.push(cur->left);
+            }
+            if(cur->right != NULL){
+                q.push(cur->right);
+            }
+        }
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    TreeNode* searchBST(TreeNode* root, int val) {
+        if(root == NULL){
+            return NULL;
+        }
+        if(root->val ==  val){
+            return root;
+        }
+        else if(root->val < val){
+            return searchBST(root->right, val);
+        }
+        return searchBST(root->left, val);
+    }
+};
+
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        queue<pair<TreeNode*, int>> q;
+        //q.front() -> pair -> pair.first = node, pair.second = level;
+        q.push({root, 1});
+        int ans = 0;
+        while(q.size() > 0){
+            pair<TreeNode*, int> cur = q.front(); q.pop();
+            TreeNode* curNode = cur.first;
+            if(!curNode){
+                break;
+            }
+            int curHt = cur.second;
+            ans = max(ans, curHt);
+            if(curNode->left){
+                q.push({curNode->left, curHt + 1});
+            }
+            if(curNode->right){
+                q.push({curNode->right, curHt + 1});
+            }
+        }
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+void dfs(TreeNode* root, int& ans, int curHt){
+if(!root){
+return ;
+}
+dfs(root->left, ans, curHt + 1);
+dfs(root->right, ans, curHt + 1);
+ans = max(ans, curHt);
+}
+int maxDepth(TreeNode* root) {
+int ans = 0;
+dfs(root, ans, 1);
+return ans;
+}
+};
+
+
+
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> ans;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(q.size() > 0){
+            int noOfNodesOnThisLevel = q.size();
+            long long sum = 0;
+            for(int i = 1; i <= noOfNodesOnThisLevel; i++){
+                TreeNode* cur = q.front();
+                q.pop();
+                sum += cur->val;
+                if(cur->left){
+                    q.push(cur->left);
+                }
+                if(cur->right){
+                    q.push(cur->right);
+                }
+            }
+            ans.push_back((double) sum/noOfNodesOnThisLevel);
+        }
+        return ans;
+    }
+};
