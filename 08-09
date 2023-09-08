@@ -1,0 +1,127 @@
+class Solution {
+public:
+    int getRightMin(TreeNode* root){
+        while(root->left){
+            root = root->left;
+        }
+        return root->val;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root){
+            return root;
+        }
+        if(root->val < key){
+            root->right = deleteNode(root->right, key);
+        }
+        else if(root->val > key){
+            root->left = deleteNode(root->left, key);
+        }
+        else{
+            if(!root->left and !root->right){ // no left and right subtree
+                return NULL;
+            }
+            else if(!root->left and root->right != NULL){ // no left and right subtree
+                return root->right;
+            }
+            else if(root->left and !root->right){ // no left and right subtree
+                return root->left;
+            }
+            else{
+                // both are not null
+                int rightMin = getRightMin(root->right);
+                root->val = rightMin;
+                root->right = deleteNode(root->right, rightMin);
+            }
+        }
+        return root;
+    }
+};
+
+class Solution {
+public:
+    int getLeftMax(TreeNode* root){
+        while(root->right){
+            root = root->right;
+        }
+        return root->val;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root){
+            return root;
+        }
+        if(root->val < key){
+            root->right = deleteNode(root->right, key);
+        }
+        else if(root->val > key){
+            root->left = deleteNode(root->left, key);
+        }
+        else{
+            if(!root->left and !root->right){ // no left and right subtree
+                return NULL;
+            }
+            else if(!root->left and root->right != NULL){ // no left and right subtree
+                return root->right;
+            }
+            else if(root->left and !root->right){ // no left and right subtree
+                return root->left;
+            }
+            else{
+                // both are not null
+                int leftMax = getLeftMax(root->left);
+                root->val = leftMax;
+                root->left = deleteNode(root->left, leftMax);
+            }
+        }
+        return root;
+    }
+};
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int getPartition(vector<int>& arr, int start, int end){
+    int pivot = arr[end];
+    int i = start - 1;
+    for(int j = start; j <= end; j++){
+        if(arr[j] < pivot){
+            i++;
+            int temp =arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+        }
+    }
+    // please donot forget to do more work
+    int t = arr[i + 1];
+    arr[i + 1] = arr[end];
+    arr[end] = t;
+    i++;
+    return i;
+}
+
+void QuickSort(vector<int>& arr, int start, int end){
+    if(start < end){
+        int pivotEle = getPartition(arr, start, end);
+        QuickSort(arr, start, pivotEle - 1);
+        QuickSort(arr, pivotEle + 1, end);
+    }
+}
+
+int main(){
+    int n; cin >> n;
+    vector<int> arr(n);
+    for(int &i: arr){
+        cin >> i;
+    }
+    cout << "before sorting = " ;
+    for(int i: arr){
+        cout << i << " ";
+    }
+    cout << "\n";
+    QuickSort(arr, 0, n - 1);
+    cout << "after sorting = " ;
+    for(int i: arr){
+        cout << i << " ";
+    }
+    cout << "\n";
+    return 0;
+}  
