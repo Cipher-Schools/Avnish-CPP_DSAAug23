@@ -1,0 +1,106 @@
+
+// try to debug for the errors
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    ifstream ifo;
+    ifo.open("newfile.txt");
+    int roll;
+    string name;
+    char gender;
+    ifo>>roll>>name>>gender;
+    cout << "perosn is having roll no = " << roll << " having name = " << name << " gender = " << gender;
+    return 0;
+}
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+int main(){
+    ofstream ofo;
+    ofo.open("newfile.txt");
+    // cout << 
+    ofo<<"changed again";
+     ofo.close();
+    ifstream ifo;
+    ifo.open("newfile.txt");
+    string newdata;
+    // cin >> 
+    //ifo>>newdata; // some issue
+    getline(ifo, newdata);
+    cout << newdata;
+    return 0;
+}
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Car{
+    public:
+        int no;
+        string name;
+};
+
+
+int main(){
+    // obj.no= 
+    // obj.bame = " ";;
+    Car obj = {14, "editedname" };
+    fstream fo;
+    fo.open("newfile.txt", ios::out | ios::binary); // fstream -> ofstream
+    // cout << 
+    // ofo << 
+    fo.write((char*)&obj, sizeof(Car));
+    fo.close();
+    fo.open("newfile.txt", ios::in | ios::binary);
+    Car newObj;
+    // cin >> 
+    // ifo >> 
+    fo.read((char*)&newObj, sizeof(Car));
+    cout << newObj.no << "\n" << newObj.name;
+    return 0;
+}
+
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Car{
+    public:
+        int no;
+        string name;
+};
+
+
+int main(){
+    Car objArr[3] = {
+        {101, "name1"},
+        {102, "name2"},
+        {103, "lastname"}
+    };
+    fstream obj;
+    obj.open("newfile.txt");
+    for(int i = 0; i < 3; i++){
+        obj.write((char*)(objArr+i), sizeof(Car));
+    }
+    obj.close();
+    Car newArray[3];
+    obj.open("newfile.txt");
+    for(int i = 0; i < 3; i++){
+        obj.read((char*)(newArray+i), sizeof(Car));
+    }
+    for(int i = 0; i < 3; i++){
+        cout << newArray[i].no << " " << newArray[i].name << endl;
+    }
+    obj.close();
+    return 0;
+}
+
