@@ -1,0 +1,64 @@
+//learn stl
+#include<bits/stdc++.h>
+using namespace std;
+
+void solve(int* ptr){
+    if(ptr == NULL){
+        throw ptr;
+    }
+    cout << "everything is goiong good";
+}
+
+int main(){
+    try{
+        solve(NULL);
+    }
+    catch(...){
+        cerr << "my error";
+    }
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void check(int n){ // -9
+    if(n < 0){
+        throw 456;
+    }
+    cout << "no is posi and all good\n";
+}
+
+int main(){
+    int n = 9;
+    try{
+        check(n);
+        cout << "no eror was seen\n";
+    }
+    catch(int resposne){
+        cout << resposne << endl;
+    }
+    cout << "after all try cacth stuff";
+    return 0;
+}
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+
+
+int main(){
+    try{
+        throw 30;
+    }
+    catch(const char* errorMessage){
+        cerr << errorMessage << endl;
+    }
+    catch(...){
+        cout << "all in one handler";
+    }
+    return 0;
+}
+
+
