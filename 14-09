@@ -1,0 +1,166 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    map<pair<int, string>, int> m;
+    // m.first => pair => first = key, second as namespace
+    // m.second = lucky number
+    m[{45, "rohan"}] = 67;
+    m[{1, "ram"}] = 47;
+    for(auto it: m){
+        cout << it.first.first << " " << it.first.second << " " << it.second << endl;
+    }
+    return 0;
+}
+
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    vector<pair<int, int>> arr;
+    arr.push_back({1, 9});
+    arr.push_back({11, 9});
+    arr.push_back({-1, 9});
+    arr.push_back({1, 10});
+    arr.push_back({1, -9});
+    sort(arr.begin(), arr.end());
+    for(auto it: arr){
+        cout << it.first << " " << it.second << endl;
+    }
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    set<pair<string, int>> s;
+    s.insert({"avnish", 9});
+    s.insert({"avinash", 19});
+    s.insert({"avinash", 19});
+    s.insert({"avinash", 19});
+    s.insert({"ram", -9});
+    for(auto it: s){
+        cout << it.first << " " << it.second << endl;
+    }
+    return 0;
+}#include<bits/stdc++.h>
+using namespace std;
+
+class MaxHeap{
+    public:
+        int arr[10];
+        int noOfElements;
+        MaxHeap(){
+            noOfElements = 0;
+            arr[0] = INT_MIN;
+        }
+        void insert(int val){
+            noOfElements++;
+            int curIndex = noOfElements;
+            arr[curIndex] = val;
+            while(curIndex > 1){
+                int parent = curIndex / 2;
+                if(arr[parent]  < arr[curIndex]){
+                    swap(arr[parent], arr[curIndex]);
+                    curIndex = parent;
+                }
+                else{
+                    return ;
+                }
+            }
+        }
+        void show(){
+            for(int i = 1; i <= noOfElements; i++){
+                cout << arr[i] << " ";
+            }
+            cout << endl;
+        }
+};
+
+int main(){
+    MaxHeap heap;
+    heap.insert(30);
+    heap.insert(50);
+    heap.insert(20);
+    heap.insert(10);
+    heap.insert(15);
+    heap.insert(11);
+    heap.insert(300);
+    heap.show();
+    return 0;
+}
+#include<bits/stdc++.h>
+using namespace std;
+
+class MaxHeap{
+    public:
+        int arr[10];
+        int noOfElements;
+        MaxHeap(){
+            noOfElements = 0;
+            arr[0] = INT_MIN;
+        }
+        void insert(int val){
+            noOfElements++;
+            int curIndex = noOfElements;
+            arr[curIndex] = val;
+            while(curIndex > 1){
+                int parent = curIndex / 2;
+                if(arr[parent]  < arr[curIndex]){
+                    swap(arr[parent], arr[curIndex]);
+                    curIndex = parent;
+                }
+                else{
+                    return ;
+                }
+            }
+        }
+        void show(){
+            for(int i = 1; i <= noOfElements; i++){
+                cout << arr[i] << " ";
+            }
+            cout << endl;
+        }
+        void deletee(){
+            if(noOfElements == 0){
+                cout << "not possible\n";
+                return ;
+            }
+            arr[1] = arr[noOfElements];
+            noOfElements--;
+            int parent = 1;
+            while(parent < noOfElements){
+                int leftChild = 2*parent;
+                int rightChild = 2*parent + 1;
+                if(leftChild < noOfElements and arr[parent] < arr[leftChild] and arr[leftChild] > arr[rightChild]){
+                    swap(arr[parent], arr[leftChild]);
+                    parent = leftChild;
+                }
+                else if(rightChild < noOfElements and arr[parent] < arr[rightChild] and arr[rightChild] > arr[leftChild]){
+                    swap(arr[parent], arr[rightChild]);
+                    parent = rightChild;
+                }
+                else{
+                    return ;
+                }
+            }
+        }
+};
+
+int main(){
+    MaxHeap heap;
+    heap.insert(30);
+    heap.insert(50);
+    heap.insert(20);
+    heap.insert(10);
+    heap.insert(15);
+    heap.insert(11);
+    heap.insert(300);
+    heap.show();
+    heap.deletee();
+    heap.deletee();
+    heap.show();
+    return 0;
+}
