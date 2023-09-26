@@ -1,0 +1,99 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int v; cin >> v;
+    int e; cin >> e;
+    vector<int> adj[v + 1];
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    for(int i = 0; i < v + 1; i++){
+        int size = adj[i].size();
+        for(int j = 0; j < size; j++){
+            cout << "edge from " << i << " to " << adj[i][j] << endl;
+        }
+    }
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int main(){
+    int v; cin >> v;
+    int e; cin >> e;
+    vector<int> adj[v + 1];
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    for(int i = 0; i < v + 1; i++){
+        for(int ele: adj[i]){
+            cout << "edge from " << i << " to " << ele << endl;
+        }
+    }
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+//TC => O(V + E), where V is the number of vertices (nodes) and E is the number of edges in the graph.
+void dfs(vector<int> adj[], int src, vector<bool>& visited){
+    visited[src] = true;
+    cout << src << " " ;
+    for(int child: adj[src]){
+        if(visited[child] == false){
+            dfs(adj, child, visited);
+        }
+    }
+}
+
+int main(){
+    int v; cin >> v;
+    int e; cin >> e;
+    vector<int> adj[v + 1];
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    vector<bool> visited(v + 1, false);
+    dfs(adj, 1, visited);
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+//TC => O(V + E), where V is the number of vertices (nodes) and E is the number of edges in the graph.
+int main(){
+    int v; cin >> v;
+    int e; cin >> e;
+    vector<int> adj[v + 1];
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    vector<bool> visited(v + 1, false);
+    queue<int> q;
+    q.push(1);
+    while(!q.empty()){
+        int node = q.front(); q.pop();
+        if(visited[node]){
+            continue;
+        }
+        cout << node << " ";
+        visited[node] = true;
+        for(int child: adj[node]){
+            if(visited[child] == false){
+                q.push(child);
+            }
+        }
+    }
+    return 0;
+}
+
