@@ -1,0 +1,150 @@
+bool cyclePresent(int src, vector<int> adj[],
+                    int visited[]){
+        // visited = 1 true work was done for him in past
+        // visited = 0 false coming for the first time
+        // queue =>pair => first => node, second => nodes's parent
+        visited[src] = 1;
+        queue<pair<int, int>> q;
+        q.push({src, -1});
+        while(!q.empty()){ // while(q.size() > 0)
+            int node = q.front().first;
+            int parent = q.front().second;
+            q.pop();
+            for(int child: adj[node]){
+                if(!visited[child]){ // visited[child] == 0
+                    // coming for the first time
+                    visited[child] = 1;
+                    q.push({child, node});
+                }
+                else{
+                    // return true; bcoz this is undirected graph
+                    // a - b
+                    // already visited by someone 
+                    if(parent != child){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<int> adj[]) {
+        int visited[V];
+        memset(visited, 0, sizeof visited);
+        for(int i = 0; i < V; i++){ // for all vertices
+            if(visited[i] == 0){
+                if(cyclePresent(i, adj, visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    bool dfs(int node, int parent, vector<int> adj[], int visited[]){
+        // visited = 1 true work was done for him in past
+        // visited = 0 false coming for the first time
+        // queue =>pair => first => node, second => nodes's parent
+        visited[node] = 1;
+        for(int child: adj[node]){
+            if(!visited[child]){ // visited[child] == 0
+                // coming for the first time
+                visited[child] = 1;
+                if(dfs(child, node, adj, visited)){
+                    return true;
+                }
+            }
+            else{
+                // return true; bcoz this is undirected graph
+                // a - b
+                // already visited by someone 
+                if(parent != child){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<int> adj[]) {
+        int visited[V];
+        memset(visited, 0, sizeof visited);
+        for(int i = 0; i < V; i++){ // for all vertices
+            if(visited[i] == 0){
+                if(dfs(i, -1, adj, visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    
+    
+    bool dfs(int node, int parent, vector<int> adj[], int visited[]){
+        // visited = 1 true work was done for him in past
+        // visited = 0 false coming for the first time
+        // queue =>pair => first => node, second => nodes's parent
+        visited[node] = 1;
+        for(int child: adj[node]){
+            if(!visited[child]){
+                if(dfs(child, node, adj, visited)){
+                    return true;
+                }
+            }
+            else{
+                // return true; bcoz this is undirected graph
+                // a - b
+                // already visited by someone 
+                if(parent != child){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    bool isCycle(int V, vector<int> adj[]) {
+        int visited[V];
+        memset(visited, 0, sizeof visited);
+        for(int i = 0; i < V; i++){ // for all vertices
+            if(visited[i] == 0){
+                if(dfs(i, -1, adj, visited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+follow this one please
+
+class Solution {
+public:
+    void dfs(vector<vector<char>>& arr, int n, int m, int i, int j){
+        if(i < 0 or j < 0 or i >= n or j >= m or arr[i][j] != '1'){
+            return;
+        }
+        // valid point and you are standing on land
+        arr[i][j] = 'W';
+        dfs(arr, n, m, i + 1, j);
+        dfs(arr, n, m, i - 1, j);
+        dfs(arr, n, m, i, j + 1);
+        dfs(arr, n, m, i, j - 1);
+    }
+    int numIslands(vector<vector<char>>& arr) {
+        int n = arr.size();
+        int m = arr[0].size();
+        if(n == 0  or m == 0){
+            return 0;
+        }
+        int ans = 0;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(arr[i][j] == '1'){
+                    ans ++;
+                    dfs(arr, n, m, i, j);
+                }
+            }
+        }
+        return ans;
+    }
+};
