@@ -1,0 +1,186 @@
+class Solution {
+public:
+    bool dfs(int src, vector<int> adj[], vector<int>& color){
+        for(int child: adj[src]){
+            if(color[child] == -1){ // no one colored you so far 
+                color[child] = 1 - color[src];
+                if(dfs(child, adj, color) == false){
+                    return false;
+                }
+                
+            }
+            else if(color[child] == color[src]){
+                    return false;
+                }
+        }
+        return true;
+    }
+bool isBipartite(int V, vector<int>adj[]){
+    vector<int> color(V, -1); // means i havenot painted anyone
+        for(int i = 0; i < V; i++){
+            if(color[i] == -1){
+                color[i] = 1; // you can even say 0
+                if(dfs(i, adj, color) == false){
+                    return false;
+                }
+            }
+        }
+        return true;
+}
+
+};
+
+class Solution {
+public:
+    bool bfs(int src, vector<int> adj[], vector<int>& color){
+        queue<int> q;
+        q.push(src);
+        color[src] = 1;
+        while(!q.empty()){
+            int node = q.front(); q.pop();
+            for(int child: adj[node]){
+                if(color[child] == -1){ // no one colored you so far 
+                    color[child] = 1 - color[node];
+                    q.push(child);
+                }
+                else if(color[child] == color[node]){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+bool isBipartite(int V, vector<int>adj[]){
+    vector<int> color(V, -1); // means i havenot painted anyone
+        for(int i = 0; i < V; i++){
+            if(color[i] == -1){
+                color[i] = 1; // you can even say 0
+                if(bfs(i, adj, color) == false){
+                    return false;
+                }
+            }
+        }
+        return true;
+}
+
+};
+
+#include<bits/stdc++.h>
+using namespace std;
+
+bool dfs(int src, vector<int> adj[], vector<int>& visited, vector<int>& dfsVisited){
+    visited[src] = 1;
+    dfsVisited[src] = 1;
+    for(int child: adj[src]){
+        if(!visited[child]){
+            if(dfs(child, adj, visited, dfsVisited)){
+                return true;
+            }
+        }
+        else{
+            if(dfsVisited[child]){
+                return true;
+            }
+        }
+    }
+    // v.v.v.v.v.v imp
+    //reason is you are coming back to the one who called you or same dfs call is about to end
+    dfsVisited[src] = 0;
+    return false;
+}
+
+int main(){
+    int v; cin >> v;
+    vector<int> adj[v + 1];
+    int e; cin >> e;
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v); // directed graph i.e only u -> v
+    }
+    vector<int> visited(v + 1, 0); // 0 means false or not visited
+    vector<int> dfsVisited(v + 1, 0); // same dfs call
+    for(int i = 0; i < v + 1; i++){
+        if(visited[i] == 0){
+            if(dfs(i, adj, visited, dfsVisited)){
+                cout << "cycle is present";
+                return 0;
+            }
+        }
+    }
+    cout << "no cycle ";
+    return 0;
+}
+
+
+class Solution {
+  public:
+    // Function to detect cycle in a directed graph.
+    bool dfs(int src, vector<int> adj[], vector<int>& visited, vector<int>& dfsVisited){
+        visited[src] = 1;
+        dfsVisited[src] = 1;
+        for(int child: adj[src]){
+            if(!visited[child]){
+                if(dfs(child, adj, visited, dfsVisited)){
+                    return true;
+                }
+            }
+            else{
+                if(dfsVisited[child]){
+                    return true;
+                }
+            }
+        }
+        // v.v.v.v.v.v imp
+        //reason is you are coming back to the one who called you or same dfs call is about to end
+        dfsVisited[src] = 0;
+        return false;
+    }
+
+    bool isCyclic(int V, vector<int> adj[]) {
+       vector<int> visited(V, 0); // 0 means false or not visited
+        vector<int> dfsVisited(V, 0); // same dfs call
+        for(int i = 0; i < V; i++){
+            if(visited[i] == 0){
+                if(dfs(i, adj, visited, dfsVisited)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+};
+
+
+class Solution
+{
+public:
+//Function to return list containing vertices in Topological order. 
+vector<int> topoSort(int V, vector<int> adj[]) 
+{
+    int ind[V] = {0};
+    for(int i = 0; i < V; i++){
+        for(int child: adj[i]){
+            ind[child]++;
+        }
+    }
+    queue<int> q;
+    for(int i = 0 ;i  <V; i++){
+        if(ind[i] == 0){
+            q.push(i);
+        }
+    }
+    vector<int> ans;
+    while(!q.empty()){
+        int node = q.front(); q.pop();
+        ans.push_back(node);
+        for(int child: adj[node]){
+            ind[child]--;
+            if(ind[child] == 0){
+                q.push(child);
+            }
+        }
+    }
+    return ans;
+}
+};
+
