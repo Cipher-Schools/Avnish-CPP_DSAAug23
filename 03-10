@@ -1,0 +1,99 @@
+vector<int> findOrder(int V, int m, vector<vector<int>> prerequisites) 
+    {
+        //code here
+        vector<int> adj[V];
+        for(auto it:prerequisites){
+            adj[it[1]].push_back(it[0]);
+        }
+        int in_degree[V]={0};
+        for(int i=0;i<V;i++){
+            for(auto it:adj[i]){
+                in_degree[it]++;
+            }
+        }
+        queue<int> q;
+        for(int i=0;i<V;i++){
+            if(in_degree[i]==0)
+            q.push(i);
+        }
+        vector<int> ans;
+        while(!q.empty()){
+            int u=q.front();
+            q.pop();
+            ans.push_back(u);
+            for(auto it:adj[u]){
+                if(--in_degree[it]==0)
+                q.push(it);
+            }
+        }
+        if(ans.size()==V)
+        return ans;
+        else 
+        return {};
+        
+    }
+    
+    #include<bits/stdc++.h>
+using namespace std;
+
+void dfs(int src, vector<int> adj[], vector<int>& visited, vector<int>& toposort_Sequence){
+    visited[src] = 1;
+    for(int child: adj[src]){
+        if(visited[child] == false){
+            dfs(child, adj, visited, toposort_Sequence);
+        }
+    }
+    toposort_Sequence.push_back(src);
+}
+
+int main(){
+    int v; cin >> v; // no of vertices
+    vector<int> adj[v + 1]; // works for both 0-1 based indexing
+    int e; cin >> e; // no of edges
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v); // we have a directed edge from u -> v
+    }
+    vector<int> visited(v + 1, 0);
+    vector<int> toposort_Sequence;
+    dfs(1, adj, visited, toposort_Sequence);
+    // something need to be done
+    reverse(toposort_Sequence.begin(), toposort_Sequence.end());
+    for(int data: toposort_Sequence){
+        cout << data << " ";
+    }
+    return 0;
+}
+
+#include<bits/stdc++.h>
+using namespace std;
+
+void dfs(int src, vector<int> adj[], vector<int>& visited, stack<int>& toposort_Sequence){
+    visited[src] = 1;
+    for(int child: adj[src]){
+        if(visited[child] == false){
+            dfs(child, adj, visited, toposort_Sequence);
+        }
+    }
+    toposort_Sequence.push(src);
+}
+
+int main(){
+    int v; cin >> v; // no of vertices
+    vector<int> adj[v + 1]; // works for both 0-1 based indexing
+    int e; cin >> e; // no of edges
+    for(int i = 0; i < e; i++){
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v); // we have a directed edge from u -> v
+    }
+    vector<int> visited(v + 1, 0);
+    stack<int> toposort_Sequence;
+    dfs(1, adj, visited, toposort_Sequence);
+    while(!toposort_Sequence.empty()){
+        int data = toposort_Sequence.top();
+        toposort_Sequence.pop();
+        cout << data << " ";
+    }
+    return 0;
+}
+
