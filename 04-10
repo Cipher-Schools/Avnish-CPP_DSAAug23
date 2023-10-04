@@ -1,0 +1,49 @@
+bool dfs(Node* root, Node*& prev){
+        if(root != NULL){
+            if(dfs(root->left, prev) == false){
+                return false;
+            }
+            if(prev and root->data <= prev->data){
+                return false;
+            }
+            prev = root;
+            return dfs(root->right, prev);
+        }
+        return true;
+    }
+    bool isBST(Node* root) {
+        Node* prev = NULL;
+        return dfs(root, prev);
+    }
+    
+    void dfs(int src, vector<vector<int>>& adj, vector<int>& visited, string& ans){
+        visited[src] = 1;
+        for(int child: adj[src]){
+            if(visited[child] == false){
+                dfs(child, adj, visited, ans);
+            }
+        }
+        char ch = src + 'a';
+        ans = ch + ans;
+    }
+    string findOrder(string dict[], int N, int k) {
+        vector<vector<int>> adj(k);
+        for(int i = 0; i < N - 1; i++){
+            string curWord = dict[i];
+            string nextWord = dict[i + 1];
+            for(int j = 0; j < min(curWord.length(), nextWord.length()); j++){
+                if(curWord[j] != nextWord[j]){ // mismatch
+                    adj[curWord[j] - 'a'].push_back(nextWord[j] - 'a');
+                    break; // first mismatch only
+                }
+            }
+        }
+        vector<int> visited(k, 0);
+        string ans = "";
+        for(int i = 0; i < k; i++){
+            if(!visited[i]){
+                dfs(i, adj, visited, ans);
+            }
+        }
+        return ans;
+    }
