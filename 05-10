@@ -1,0 +1,103 @@
+void dfs(int src, vector<vector<int>> adj[], vector<int>& visited, vector<int>& toposeq){
+         visited[src] = 1;
+         for(auto child: adj[src]){
+            //  child[0] => child
+            // child[1] => wt
+            if(visited[child[0]] == false){
+                dfs(child[0], adj, visited, toposeq);
+            }
+         }
+         toposeq.push_back(src);
+         return;
+     }
+     vector<int> shortestPath(int N,int M, vector<vector<int>>& edges){
+        vector<vector<int>> adj[N];
+        for(vector<int> arr: edges){
+            // arr[0] -> u
+            // arr[1] -> v
+            // arr[2] -> wt
+            int u = arr[0];
+            int v = arr[1];
+            int wt = arr[2];
+            adj[u].push_back({v, wt});
+        }
+        vector<int> visited(N, 0);
+        vector<int> distance(N, INT_MAX);
+        vector<int> toposeq;
+        dfs(0, adj, visited, toposeq);
+        // src =>0 
+        distance[0] = 0;
+        //[1] .... [N - 1] = infinity
+        while(toposeq.size() > 0){
+            int node = toposeq.back();
+            toposeq.pop_back();
+            for(auto ngh: adj[node]){
+                int child = ngh[0];
+                int wt = ngh[1];
+                if(distance[child] > distance[node] + wt){
+                    // a->b->c
+                    distance[child] = distance[node] + wt;
+                }
+            }
+        }
+        for(auto &i: distance){
+            if(i == INT_MAX){
+                i = -1;
+            }
+        }
+        return distance;
+    }
+    
+    vector<int> shortestPath(vector<vector<int>>& edges, int N,int M, int src){
+        vector<int> adj[N];
+        for(vector<int> child: edges){
+            // child[0] = u;
+            // child[1] = v
+            adj[child[0]].push_back(child[1]);
+            adj[child[1]].push_back(child[0]);
+        }
+        queue<pair<int, int>> q;
+        q.push({src, 0});
+        vector<int> distance(N, INT_MAX);
+        distance[src] = 0;
+        while(!q.empty()){
+            int node = q.front().first;
+            int curDistance = q.front().second;
+            q.pop();
+            for(auto child: adj[node]){
+                if(distance[child] > curDistance + 1){
+                    distance[child] = curDistance + 1;
+                    q.push({child, curDistance + 1});
+                }
+            }
+        }
+        for(int &i: distance){
+            if(i == INT_MAX){
+                i = -1;
+            }
+        }
+        return distance;
+    }
+    
+    vector <int> dijkstra(int V, vector<vector<int>> adj[], int src){
+        vector<int> distance(V, INT_MAX);
+        distance[src] = 0;
+        priority_queue<pair<int, int>, vector<pair<int , int>> , greater<pair<int, int>>> pq;
+        pq.push({0, src});
+        while(!pq.empty()){
+            int node = pq.top().second;
+            int cost = pq.top().first;
+            pq.pop();
+            for(auto child: adj[node]){
+                // child[0] = v;
+                // child[1] = wt
+                if(distance[child[0]] > distance[node] + child[1]){
+                    distance[child[0]] = distance[node] + child[1];
+                    pq.push({distance[child[1]], child[0]});
+                }
+            }
+        }
+        return distance;
+    }
+    
+    
