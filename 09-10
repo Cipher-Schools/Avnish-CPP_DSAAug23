@@ -1,0 +1,135 @@
+capture O problem
+class Solution {
+public:
+    void dfs(vector<vector<char>>& arr, int curRow, int curCol, int n, int m){
+        if(curRow < 0 or curCol < 0 or curRow >= n or curCol >= m or arr[curRow][curCol] != 'O'){
+            return ;
+        }
+        arr[curRow][curCol] = '@';
+        dfs(arr, curRow + 1, curCol, n, m);
+        dfs(arr, curRow - 1, curCol, n, m);
+        dfs(arr, curRow, curCol + 1, n, m);
+        dfs(arr, curRow, curCol - 1, n, m);
+    }
+    void solve(vector<vector<char>>& arr) {
+        int n = arr.size();
+        int m = arr[0].size();
+        for(int i = 0; i < n; i++){
+            if(arr[i][0] == 'O'){  // left 
+                dfs(arr, i, 0, n, m);
+            }
+            if(arr[i][m - 1] == 'O'){ // right
+                dfs(arr, i, m - 1, n, m);
+            }
+        }
+        for(int i = 0; i < m; i++){
+            if(arr[0][i] == 'O'){  // top
+                dfs(arr, 0, i, n, m);
+            }
+            if(arr[n - 1][i] == 'O'){ // bottom
+                dfs(arr, n - 1, i, n, m);
+            }
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(arr[i][j] == 'X'){
+                    
+                }
+                else if(arr[i][j] == '@'){
+                    arr[i][j] = 'O';
+                }
+                else{
+                    arr[i][j] = 'X';
+                }
+            }
+        }
+    }
+};
+
+
+01 matrix probelm
+class Solution {
+public:
+    bool valid(int newRow, int newCol, int n, int m){
+        if(newRow < 0 or newCol < 0 or newRow >= n or newCol >= m){
+            return false;
+        }
+        return true;
+    }
+    vector<vector<int>> updateMatrix(vector<vector<int>>& arr) {
+        int n = arr.size(); int m = arr[0].size();
+        vector<vector<int>> ans(n, vector<int>(m, INT_MAX));
+        queue<pair<int, int>> q;
+        // q.front().first = Current row
+        // q.front().second = Current col
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                if(arr[i][j] == 0){
+                    q.push({i, j});
+                    ans[i][j] = 0;
+                }
+            }
+        }
+        while(!q.empty()){
+            pair<int, int> curCor = q.front(); q.pop();
+            int curRow = curCor.first;
+            int curCol = curCor.second;
+            if(valid(curRow - 1, curCol, n, m)){
+                // valid cord
+                if(ans[curRow - 1][curCol] > ans[curRow][curCol] + 1){
+                    // valid cord, you have reached this spot in min distance for the first tym
+                    ans[curRow - 1][curCol] = ans[curRow][curCol] + 1;
+                    q.push({curRow - 1, curCol});
+                }
+            }
+            if(valid(curRow + 1, curCol, n, m)){
+                if(ans[curRow + 1][curCol] > ans[curRow][curCol] + 1){
+                    ans[curRow + 1][curCol] = ans[curRow][curCol] + 1;
+                    q.push({curRow + 1, curCol});
+                }
+            }
+            if(valid(curRow, curCol - 1, n, m)){
+                if(ans[curRow][curCol - 1] > ans[curRow][curCol] + 1){
+                    ans[curRow][curCol - 1] = ans[curRow][curCol] + 1;
+                    q.push({curRow, curCol - 1});
+                }
+            }
+            if(valid(curRow, curCol + 1, n, m)){
+                if(ans[curRow][curCol + 1] > ans[curRow][curCol] + 1){
+                    ans[curRow][curCol + 1] = ans[curRow][curCol] + 1;
+                    q.push({curRow, curCol + 1});
+                }
+            }
+        }
+        return ans;
+    }
+};
+flood fill problem 
+class Solution {
+public:
+    void dfs(vector<vector<int>>& image, int sr, int sc, int n, int m, int newColor, int oldColor){
+        if(sr < 0 or sc < 0 or sr >= n or sc >= m){ // check for out of boundary
+            return;
+        }
+        if(oldColor !=image[sr][sc]){
+            return;
+        }
+        // valid cord, same color
+        image[sr][sc] = newColor;
+        dfs(image, sr + 1, sc, n, m, newColor, oldColor);
+        dfs(image, sr - 1, sc, n, m, newColor, oldColor);
+        dfs(image, sr, sc + 1, n, m, newColor, oldColor);
+        dfs(image, sr, sc - 1, n, m, newColor, oldColor);
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int originalColor = image[sr][sc]; // take the note of original color
+        if(originalColor == color){ // will not do any work since both are same
+            return image;
+        }
+        // colors are different
+        int n = image.size();
+        int m = image[0].size();
+        dfs(image, sr, sc, n, m, color, originalColor);
+        return image;
+    }
+};
