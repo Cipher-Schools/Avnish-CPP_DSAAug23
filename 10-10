@@ -1,0 +1,100 @@
+990. Satisfiability of Equality Equations
+class Solution {
+public:
+     bool equationsPossible(vector<string>& equations) {
+        vector<vector<char>> graph(26, vector<char>());
+        for (string equ : equations) {
+            if (equ[1] == '=' && equ[0] != equ[3]) {
+                graph[equ[0] - 'a'].push_back(equ[3]);
+                graph[equ[3] - 'a'].push_back(equ[0]);
+            }
+        }
+        vector<bool> isVisited(26, false);
+        for (string equ : equations) {
+            if ((equ[1] == '!' && hasPath(graph, isVisited, equ[0], equ[3])) || (equ[1] == '=' && !hasPath(graph, isVisited, equ[0], equ[3]))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    bool hasPath(vector<vector<char>> &graph, vector<bool> isVisited, char cur, char &end) {
+        isVisited[cur - 'a'] = true; // Mark as visited
+        if (cur == end) { // Path Found
+            return true;
+        }
+        bool res = false;
+        for (char &child : graph[cur - 'a']) {
+            if (isVisited[child - 'a'] == false) { // If not visited
+                res |= hasPath(graph, isVisited, child, end);
+            }
+        }
+        return res;
+    }
+}; 
+765. Couples Holding Hands
+class Solution {
+public:
+    int minSwapsCouples(vector<int>& arr) {
+        map<int, int> m;
+        for(int i = 0; i < arr.size(); i++){
+            m[arr[i]] = i;
+            // m[ele] = index
+        }
+        int ans = 0;
+        for(int i = 0; i < arr.size(); i += 2){
+            int couple1 = arr[i];
+            int couple2 = arr[i + 1];
+            int idle = couple1 ^ 1;
+            if(couple2 != idle){
+                ans++;
+                int idlePos = m[idle];
+                int temp = arr[i + 1];
+                int tempPos = m[temp];
+                arr[i + 1] = idle;
+                arr[idlePos] = temp;
+                m[idle] = i + 1;
+                m[temp] = idlePos;
+            }
+        }
+        return ans;
+    }
+};
+2192. All Ancestors of a Node in a Directed Acyclic Graph
+class Solution {
+public:
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<int> adj[n];
+        for(vector<int> arr: edges){
+            // arr[0] -> u
+            // arr[1] -> v
+            // u -> v
+            // we need to do v->u
+            adj[arr[1]].push_back(arr[0]);
+        }
+        int vis[n];
+        vector<vector<int>> ans;
+        for(int i = 0; i < n; i++){
+            int node = i;
+            memset(vis, 0, sizeof vis);
+            queue<int> q;
+            q.push(node);
+            vector<int> temp;
+            while(!q.empty()){
+                int x = q.front(); q.pop();
+                if(x != i){ // node cannot be the ancestor of node itself
+                    temp.push_back(x);
+                }
+                for(int child: adj[x]){
+                    if(!vis[child]){
+                        vis[child] = 1;
+                        q.push(child);
+                    }
+                }
+            }
+            sort(temp.begin(), temp.end());
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
