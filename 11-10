@@ -1,0 +1,99 @@
+class Solution {
+public:
+    void dfs(int src, int i, vector<int> adj[], vector<int>& temp, int vis[]){
+        if(src != i){ // node cannot be the ancestor of node itself
+            temp.push_back(src);
+        }
+        for(int child: adj[src]){
+            if(!vis[child]){
+                vis[child] = 1;
+                dfs(child, i, adj, temp, vis);
+            }
+        }
+    }
+    vector<vector<int>> getAncestors(int n, vector<vector<int>>& edges) {
+        vector<int> adj[n];
+        for(vector<int> arr: edges){
+            // arr[0] -> u
+            // arr[1] -> v
+            // u -> v
+            // we need to do v->u
+            adj[arr[1]].push_back(arr[0]);
+        }
+        int vis[n];
+        vector<vector<int>> ans;
+        for(int i = 0; i < n; i++){
+            memset(vis, 0, sizeof(vis));
+            vector<int> temp;
+            dfs(i, i, adj, temp, vis);
+            sort(temp.begin(), temp.end());
+            ans.push_back(temp);            
+        }
+        return ans;
+    }
+};
+
+class Solution{
+    public:
+    
+    int dfs(int arr[], int index, int lastIndex, vector<int>& dp){
+        if(index > lastIndex){
+            return 0;
+        }
+        if(dp[index] != -1){
+            return dp[index];
+        }
+        int pickCurrentEle = arr[index] + dfs(arr, index + 2, lastIndex, dp);
+        int nonpickCurrentEle = dfs(arr, index + 1, lastIndex, dp);
+        return dp[index] =  max(pickCurrentEle, nonpickCurrentEle);
+    }
+    int FindMaxSum(int arr[], int n){
+        int exc = 0;
+        int inc = arr[0];
+        for(int i = 1; i < n; i++){
+            int notPick = max(exc, inc);
+            inc = arr[i] + exc;
+            exc = notPick;
+        }
+        return max(exc, inc);
+    }
+};
+
+class Solution{
+    public:
+    
+    int dfs(int arr[], int index, int lastIndex, vector<int>& dp){
+        if(index > lastIndex){
+            return 0;
+        }
+        if(dp[index] != -1){
+            return dp[index];
+        }
+        int pickCurrentEle = arr[index] + dfs(arr, index + 2, lastIndex, dp);
+        int nonpickCurrentEle = dfs(arr, index + 1, lastIndex, dp);
+        return dp[index] =  max(pickCurrentEle, nonpickCurrentEle);
+    }
+    int FindMaxSum(int arr[], int n){
+        vector<int> dp(n, -1);
+        // dp[index] = x 
+        // from 0 to index we have the best answer as x keeping and following every rule.
+        return dfs(arr, 0, n - 1, dp);
+    }
+};
+
+
+class Solution{
+    public:
+    
+    int dfs(int arr[], int index, int lastIndex){
+        if(index > lastIndex){
+            return 0;
+        }
+        int pickCurrentEle = arr[index] + dfs(arr, index + 2, lastIndex);
+        int nonpickCurrentEle = dfs(arr, index + 1, lastIndex);
+        return max(pickCurrentEle, nonpickCurrentEle);
+    }
+    int FindMaxSum(int arr[], int n){
+        return dfs(arr, 0, n - 1);
+    }
+};
