@@ -1,0 +1,136 @@
+class Solution {
+  private:
+    void dfs(int x,int y, vector<vector<int>> &grid, pair<int,int> base, vector<pair<int,int>> &island, set<vector<pair<int,int>>> &setOfIslands)
+    {
+        grid[x][y] = 0;
+        
+        int dx[] = {-1,0,1,0};
+        int dy[] = {0,-1,0,1};
+        
+        for(int i=0; i<4; i++)
+        {
+            int a = x+dx[i];
+            int b = y+dy[i];
+            
+            if(a>=0 && b>=0 && a<grid.size() && b<grid[0].size() && grid[a][b] == 1)
+            {
+                island.push_back({a - base.first , b - base.second});
+                dfs(a,b,grid,base,island,setOfIslands);
+            }
+        }
+    }
+  public:
+    int countDistinctIslands(vector<vector<int>>& grid) {
+        // code here
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        set<vector<pair<int,int>>> setOfIslands;
+        for(int i=0 ;i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(grid[i][j] == 1)
+                {
+                    vector<pair<int,int>> island;
+                    pair<int,int> base = {i,j};
+                    island.push_back({i - base.first , j - base.second});
+                    
+                    dfs(i,j,grid,base,island,setOfIslands);
+                    setOfIslands.insert(island);
+                }
+            }
+        }
+        
+        return setOfIslands.size();
+    }
+};
+
+class Solution {
+public:
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> radj[n];
+        // u->v
+        // v->u
+        queue<int> q;
+        int outd[n];
+        memset(outd, 0, sizeof outd);
+        int safeNode[n];
+        memset(safeNode, 0, sizeof outd);
+        // 0 -> unsafe, 1-safe
+        vector<int> ans;
+        for(int i = 0; i < n; i++){
+            for(int child: graph[i]){
+                // originally  i -> child1;
+                // i -> child2;
+                radj[child].push_back(i);
+            }
+            outd[i] = graph[i].size();
+            if(outd[i] == 0){
+                q.push(i);
+            }
+        }
+        while(!q.empty()){
+            int node = q.front(); q.pop();
+            safeNode[node] = 1;
+            for(int child: radj[node]){
+                outd[child]--;
+                if(outd[child] == 0){
+                    q.push(child);
+                }
+            }
+        }
+        for(int i = 0; i < n; i++){
+            if(safeNode[i]){
+                ans.push_back(i);
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    bool isIinvolvedInCycle(int node, vector<int> adj[], int visited[], int dfsvisited[]){
+        visited[node] = 1;
+        dfsvisited[node] = 1;
+        for(int child: adj[node]){
+            if(!visited[child]){
+                if(isIinvolvedInCycle(child, adj, visited, dfsvisited)){
+                    return true;
+                }
+            }
+            else{
+                // visited[child] = 1;
+                if(dfsvisited[child]){
+                    return true;
+                }
+            }
+        }
+        dfsvisited[node] = 0;
+        return false;
+    }
+    vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> adj[n];
+        int u = 0;
+        for(vector<int> arr: graph){
+            for(int v: arr){
+                adj[u].push_back(v);
+            }
+            u++;
+        }
+        vector<int> ans;
+        int visited[n];
+        int dfsvisited[n];
+        for(int i = 0; i < n; i++){
+            memset(visited, 0, sizeof visited);
+            memset(dfsvisited, 0, sizeof visited);
+            if(isIinvolvedInCycle(i, adj, visited, dfsvisited) == false){
+                ans.push_back(i);
+            }
+        }
+        return ans;;
+    }
+};
