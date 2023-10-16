@@ -1,0 +1,129 @@
+class Solution {
+public:
+    int dfs(TreeNode* root, int& ans){
+        if(!root){
+            return 0; 
+        }
+        if(!root->left and !root->right){
+            return 1;
+        }
+        int lc = dfs(root->left, ans);
+        int rc = dfs(root->right, ans);
+        ans = max(ans, lc + rc);
+        return max(lc, rc) + 1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+
+
+class Solution {
+public:
+    void dfs(TreeNode* root, vector<int>& arr){
+        if(!root){
+            return ;
+        }
+        if(!root->left and !root->right){
+            arr.push_back(root->val);
+        }
+        dfs(root->left, arr);
+        dfs(root->right, arr);
+    }
+    
+    
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        vector<int> arr1, arr2;
+        dfs(root1, arr1);
+        dfs(root2, arr2);
+        if(arr1 != arr2){
+            return false;
+        }
+        return true;
+    }
+};
+class Solution {
+public:
+    bool dfs(TreeNode* root, int curVal){
+        if(!root){
+            return true;
+        }
+        if(root->val != curVal){
+            return false;
+        }
+        return dfs(root->left, curVal) and dfs(root->right, curVal);
+    }
+    bool isUnivalTree(TreeNode* root) {
+        return dfs(root, root->val);
+    }
+};
+
+
+class Solution {
+public:
+    void dfs(TreeNode* root, int& ans, int sum = 0){
+        if(!root){
+            return;
+        }
+        sum <<= 1; // sum = sum * 2;
+        sum |= root->val; // current no obtained so far sum = sum + root->val;
+        if(!root->left and !root->right){
+            ans += sum;
+        }
+        dfs(root->left, ans, sum);
+        dfs(root->right, ans, sum);
+    }
+    int sumRootToLeaf(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    void dfs(TreeNode* root, int& ans, int curNo){
+        if(!root){
+            return;
+        }
+        int temp = curNo;
+        curNo *= 10;
+        curNo += root->val;
+        if(root->left == NULL and root->right == NULL){
+            ans += curNo;
+        }
+        dfs(root->left, ans, curNo);
+        dfs(root->right, ans, curNo);
+        curNo = temp;
+    }
+    int sumNumbers(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans, 0);
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    void inorder(TreeNode* root, TreeNode*& dummyNode){
+        if(root == NULL){
+            return ;
+        }
+        inorder(root->left, dummyNode);
+        dummyNode->right = root;
+        root->left = NULL;
+        dummyNode = dummyNode->right;
+        // need to do work for me
+        inorder(root->right, dummyNode);
+    }
+    TreeNode* increasingBST(TreeNode* root) {
+        TreeNode* dummyNode = new TreeNode(101); // it will always point to last node
+        TreeNode* ans = dummyNode;
+        inorder(root, dummyNode);        
+        return ans->right;
+    }
+};
+
+
