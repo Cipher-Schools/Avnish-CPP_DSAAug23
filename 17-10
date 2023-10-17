@@ -1,0 +1,106 @@
+
+class Solution{
+    public:
+    void dfs(Node* root,vector<int> &ans, int level){
+        if(!root){
+            return;
+        }
+        if(ans.size() < level){
+            ans.push_back(root->data);
+        }
+        dfs(root->right, ans, level + 1);
+        dfs(root->left, ans, level + 1);
+    }
+    
+    vector<int> leftView(Node *root){
+        vector<int> ans;
+        dfs(root,ans, 1);
+        return ans;
+    }
+
+    vector<int> rightView(Node *root){
+       return leftView(root);
+    }
+};
+
+
+void dfs(Node* root,vector<int> &ans, int level){
+    if(!root){
+        return;
+    }
+    if(ans.size() < level){
+        ans.push_back(root->data);
+    }
+    dfs(root->left, ans, level + 1);
+    dfs(root->right, ans, level + 1);
+}
+
+vector<int> leftView(Node *root){
+    vector<int> ans;
+    dfs(root,ans, 1);
+    return ans;
+}
+class Solution {
+public:
+    void dfs(TreeNode* root, int& sum){
+        if(!root){
+            return ;
+        }
+        if(root and root->left and !root->left->left and !root->left->right){
+            sum += root->left->val;
+        }
+        dfs(root->left, sum);
+        dfs(root->right, sum);
+    }
+    int sumOfLeftLeaves(TreeNode* root) {
+        int sum = 0;
+        dfs(root, sum);
+        return sum;
+    }
+};
+class Solution {
+public:
+    void dfs(TreeNode* root, int& prev, int& ans){
+        if(!root){
+            return;
+        }
+        dfs(root->left, prev, ans);
+        if(prev == -1 and root){
+            prev = root->val;
+        }
+        else if(prev != -1 and root){
+            int curDif = root->val - prev;
+            ans = min(ans, curDif);
+            prev = root->val;
+        }
+        
+        dfs(root->right, prev, ans);
+    }
+    int minDiffInBST(TreeNode* root) {
+        int ans = INT_MAX;
+        int prev = -1;
+        dfs(root, prev, ans);
+        return ans;
+    }
+};
+class Solution {
+public:
+    void dfs(TreeNode* root, vector<int>& ans){
+        if(!root){
+            return ;
+        }
+        dfs(root->left, ans);
+        ans.push_back(root->val);
+        dfs(root->right, ans);
+    }
+    int minDiffInBST(TreeNode* root) {
+        vector<int> inorder;
+        dfs(root, inorder);
+        int ans = INT_MAX;
+        for(int i = 1; i < inorder.size(); i++){
+            int curDif = inorder[i] - inorder[i - 1];
+            ans = min(ans, curDif);
+        }
+        return ans;
+    }
+};
