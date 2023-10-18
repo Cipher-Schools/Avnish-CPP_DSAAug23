@@ -1,0 +1,69 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int noOfBits1(int n){
+    int bits = 0;
+    for(int i = 0; i <= 31; i++){
+        int mask = (1 << i);
+        if(mask & n){
+            bits++:
+        }
+    }
+    return bits;
+}
+
+int noOfBits2(int n){
+    int bits = 0;
+    while(n){ //  till your n is non zero
+        int mask = n & (-n); // complement
+        n -= mask;
+        bits++;
+    }
+    return bits;
+}
+
+int main(){
+    int t; cin >> t;
+    while(t--){
+        int n; cin >> n;
+        cout << noOfBits(n) << endl;
+    }
+    return 0;
+}
+class Solution {
+public:
+    static bool comp(pair<int, int> a, pair<int, int> b){
+        if(a.first < b.first){
+            return true;
+        }
+        else if(a.first == b.first){
+            return a.second < b.second;
+        }
+        return false;
+    }
+    void dfs(TreeNode* root, int row, int col, map<int, vector<pair<int, int>>>& m){
+        if(!root){
+            return ;
+        }
+        m[col].push_back({row, root->val});
+        dfs(root->left, row + 1, col - 1, m);
+        dfs(root->right, row + 1, col + 1, m);
+    }
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        map<int, vector<pair<int, int>>> m;
+        dfs(root, 0, 0, m);
+        for(auto it: m){
+            auto key = it.first;
+            auto arr = it.second;
+            sort(arr.begin(), arr.end(), comp);
+            vector<int> temp;
+            for(auto ele: arr){
+                //ele = {row, number};
+                temp.push_back(ele.second);
+            }
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};
