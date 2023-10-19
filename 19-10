@@ -1,0 +1,145 @@
+
+class Solution {
+public:
+    // pair->first = child
+    // pair>second = sum
+    pair<int, int> dfs(TreeNode* root, int& ans){
+        if(!root){
+            return {0, 0};
+        }
+        
+        pair<int, int> lc = dfs(root->left, ans);
+        pair<int, int> rc = dfs(root->right, ans);
+        pair<int, int> cur;
+        cur.first = lc.first + rc.first + 1;
+        cur.second = lc.second + rc.second + (root ? root->val : 0);
+        auto avg = cur.second / cur.first;
+        if(root and cur.first and root->val == avg){
+            ans++;
+        }
+        return cur;
+    }
+    int averageOfSubtree(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+class obj{
+    public:
+        int child;
+        int sum;
+};
+
+class Solution {
+public:
+    obj dfs(TreeNode* root, int& ans){
+        if(!root){
+            obj cur ;
+            cur.child = 0;
+            cur.sum = 0;
+            return cur;
+        }
+        
+        obj lc = dfs(root->left, ans);
+        obj rc = dfs(root->right, ans);
+        obj cur;
+        cur.child = lc.child + rc.child + 1;
+        cur.sum = lc.sum + rc.sum + (root ? root->val : 0);
+        auto avg = cur.sum / cur.child;
+        if(root and cur.child and root->val == avg){
+            ans++;
+        }
+        return cur;
+    }
+    int averageOfSubtree(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+
+struct obj{
+    public:
+        int child;
+        int sum;
+};
+
+class Solution {
+public:
+    obj dfs(TreeNode* root, int& ans){
+        if(!root){
+            obj cur ;
+            cur.child = 0;
+            cur.sum = 0;
+            return cur;
+        }
+        
+        obj lc = dfs(root->left, ans);
+        obj rc = dfs(root->right, ans);
+        obj cur;
+        cur.child = lc.child + rc.child + 1;
+        cur.sum = lc.sum + rc.sum + (root ? root->val : 0);
+        auto avg = cur.sum / cur.child;
+        if(root and cur.child and root->val == avg){
+            ans++;
+        }
+        return cur;
+    }
+    int averageOfSubtree(TreeNode* root) {
+        int ans = 0;
+        dfs(root, ans);
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    bool dfs(TreeNode* root, TreeNode* subRoot){
+        if(!root and !subRoot){
+            return true;
+        }
+        if(!root or !subRoot){
+            return false;
+        }
+        if(root->val != subRoot->val){
+            return false;
+        }
+        bool exactLeft = dfs(root->left, subRoot->left);
+        bool exactRight = dfs(root->right, subRoot->right);
+        return exactLeft and exactRight;
+    }
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(!root and !subRoot){
+            return true;
+        }
+        if(!root or !subRoot){
+            return false;
+        }
+        bool currentMatch = (root->val == subRoot->val and dfs(root, subRoot));
+        bool leftMatch = isSubtree(root->left, subRoot);
+        bool rightMatch = isSubtree(root->right, subRoot);
+        return (currentMatch or leftMatch or rightMatch);
+    }
+};
+
+class Solution {
+public:
+    void dfs(TreeNode* root, TreeNode* parent, TreeNode* gparent, int& sum){
+        if(!root){
+            return;
+        }
+        if(gparent != NULL and gparent->val % 2 == 0){
+            sum += root->val;
+        }
+        dfs(root->left, root, parent, sum);
+        dfs(root->right, root, parent, sum);
+    }
+    int sumEvenGrandparent(TreeNode* root) {
+        int sum = 0;
+        TreeNode* parent = NULL;
+        TreeNode* gparent = NULL;
+        dfs(root, parent, gparent, sum);        
+        return sum;
+    }
+};
