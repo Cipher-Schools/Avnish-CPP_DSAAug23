@@ -1,0 +1,81 @@
+class Solution {
+public:
+    void dfs(TreeNode* root, vector<int> freq, int& ans){
+        freq[root->val]++;
+        if(root->left != NULL){
+            dfs(root->left, freq, ans);
+        }
+        if(root->right != NULL){
+            dfs(root->right, freq, ans);
+        }
+        if(root->left  == NULL and root->right == NULL){
+            int odd = 0;
+            for(int i = 1; i <= 9; i++){
+                if(freq[i] % 2 == 1){ // odd
+                    odd++;
+                }
+            }
+            if(odd <= 1){
+                ans++;
+            }
+        }
+    }
+    int pseudoPalindromicPaths (TreeNode* root) {
+        int ans = 0;
+        vector<int> freq(10, 0);
+        dfs(root, freq, ans);
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int dfs(TreeNode* root, map<int, int>& m, int& maxFreq){
+        if(!root){
+            return 0;
+        }
+        int leftSubtreeSum = dfs(root->left, m, maxFreq);
+        int rightSubTreeSum = dfs(root->right, m, maxFreq);
+        int curSum = 0;
+        if(root){
+            curSum = leftSubtreeSum + root->val + rightSubTreeSum;
+            m[curSum]++;
+        }
+        maxFreq = max(maxFreq, m[curSum]);
+        return curSum;
+    }
+    vector<int> findFrequentTreeSum(TreeNode* root) {
+        map<int, int> m;
+        int mxFreq = 0;
+        dfs(root, m, mxFreq);
+        vector<int> ans;
+        for(auto it: m){
+            if(it.second == mxFreq){
+                ans.push_back(it.first);
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    void dfs(TreeNode* root, int& k, int& ans){
+        if(!root or ans != -1){
+            return ;
+        }
+        dfs(root->left, k, ans);
+        k--;
+        if(k == 0){
+            ans = (root ? root->val : -1);
+            return ;
+        }
+        
+        dfs(root->right, k, ans);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        int ans = -1;
+        dfs(root, k, ans);
+        return ans;
+    }
+};
