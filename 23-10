@@ -1,0 +1,73 @@
+class Solution {
+public:
+    int dfs(vector<vector<int>>& adj, vector<bool>& hasApple, vector<bool>& visited,
+            int src, int tym){
+        if(visited[src] == true){
+            return 0;
+        }
+        visited[src] = true;
+        int totalCostForThisSubTree = 0;
+        for(int child: adj[src]){
+            totalCostForThisSubTree += dfs(adj, hasApple, visited, child, 2);
+        }
+        if(totalCostForThisSubTree == 0 and hasApple[src] == false){
+            return 0;
+        }
+        return totalCostForThisSubTree + tym;
+    }
+    int minTime(int n, vector<vector<int>>& edges, vector<bool>& hasApple) {
+        vector<bool> visited(n, false);
+        vector<vector<int>> adj(n);
+        for(vector<int> arr: edges){
+            adj[arr[0]].push_back(arr[1]);
+            adj[arr[1]].push_back(arr[0]);
+        }
+        return dfs(adj, hasApple, visited, 0, 0);
+    }
+};
+class Solution {
+public:
+    void dfs(TreeNode* root, TreeNode* blocker, int k, vector<int>& ans){
+        if(!root or k < 0 or root == blocker){
+            return ;
+        }
+        if(k == 0){
+            ans.push_back(root->val);
+            return ;
+        }
+        dfs(root->left, blocker, k - 1, ans);
+        dfs(root->right, blocker, k - 1, ans);
+    }
+    void getPath(TreeNode* root, TreeNode* target, vector<TreeNode*> arr, 
+                    vector<TreeNode*>& path){
+        if(!root){
+            return ;
+        }
+        arr.push_back(root);
+        if(root->val == target->val){
+            path = arr;
+            return ;
+        }
+        getPath(root->left, target, arr, path);
+        getPath(root->right, target, arr, path);
+    }
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        vector<TreeNode*> path, arr;
+        getPath(root, target, arr, path);
+        vector<int> ans;
+        int n = path.size();
+        for(int i = n - 1; i >= 0; i--){
+            TreeNode* blocker;
+            if(i == n -1){
+                blocker = NULL;
+            }
+            else{
+                blocker = path[i + 1];
+            }
+            dfs(path[i], blocker, k, ans);
+            k--;
+        }
+        
+        return ans;
+    }
+};
