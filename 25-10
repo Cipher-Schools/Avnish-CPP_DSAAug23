@@ -1,0 +1,106 @@
+class Solution {
+public:
+    int dfs(TreeNode* root, int x, int& leftChildForComputer, int& rightChildForComputer){
+        if(!root){
+            return 0;
+        }
+        int lc = dfs(root->left, x, leftChildForComputer, rightChildForComputer);
+        int rc = dfs(root->right, x, leftChildForComputer, rightChildForComputer);
+        if(root and root->val == x){
+            leftChildForComputer = lc;
+            rightChildForComputer = rc;
+        }
+        return (lc + rc + 1);
+    }
+    bool btreeGameWinningMove(TreeNode* root, int n, int x) {
+        int leftChildForComputer = 0;
+        int rightChildForComputer = 0;
+        dfs(root, x, leftChildForComputer, rightChildForComputer);
+        int totalByComp = (leftChildForComputer + rightChildForComputer + 1);
+        int par = n - totalByComp;
+        if(par > totalByComp){
+            return true;
+        }
+        if(leftChildForComputer > (rightChildForComputer + 1 + par)){
+            return true;   
+        }
+        if(rightChildForComputer > (leftChildForComputer + 1 + par)){
+            return true;
+        }
+        return false;
+    }
+};
+
+class Solution {
+public:
+    map<TreeNode*, int> m;
+    int dfs(TreeNode* root){
+        if(!root){
+            return 0;
+        }
+        if(m[root]){
+            return m[root];
+        }
+        int exclude = 0;
+        if(root->left){
+            exclude += dfs(root->left);
+        }
+        if(root->right){
+            exclude += dfs(root->right);
+        }
+        int include = 0;
+        if(root){
+            include += root->val;
+        }
+        if(root and root->left and root->left->left){
+            include += dfs(root->left->left);
+        }
+        if(root and root->left and root->left->right){
+            include += dfs(root->left->right);
+        }
+        if(root and root->right and root->right->left){
+            include += dfs(root->right->left);
+        }
+        if(root and root->right and root->right->right){
+            include += dfs(root->right->right);
+        }
+        return (m[root] = max(include, exclude));
+    }
+    int rob(TreeNode* root) {
+        return dfs(root);
+    }
+};
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if(!root){
+            return root;
+        }
+        queue<Node*> q;
+        q.push(root);
+        while(!q.empty()){
+            int noOfNodesInThisLevel = q.size();
+            Node* prev = NULL; // for my help
+            while(noOfNodesInThisLevel--){
+                Node* cur = q.front(); q.pop();
+                if(prev == NULL){ // standing on first node of this level
+                    prev = cur;
+                }
+                else{
+                    
+                    prev->next = cur;
+                    prev = prev->next;
+                }
+                
+                if(cur->left){
+                    q.push(cur->left);
+                }
+                if(cur->right){
+                    q.push(cur->right);
+                }
+            }
+        }
+        return root;
+    }
+};
