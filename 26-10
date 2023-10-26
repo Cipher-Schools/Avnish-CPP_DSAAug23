@@ -1,0 +1,27 @@
+class Solution {
+public:
+max
+long long int maxi(unsigned long long a , unsigned long long b){
+if(a>b){
+return a;
+}
+return b;
+}
+int dfs(TreeNode* root, unsigned long long id, int dist, vector<unsigned long long>& ans){
+if(!root){
+return 0;
+}
+if(dist >= ans.size()){
+//distance btw any two spdcific nodes is more than lefts nodes count
+ans.push_back(id);
+}
+unsigned long long leftCount = dfs(root->left, id * 2, dist + 1, ans);
+unsigned long long rightCount = dfs(root->right, id * 2 + 1, dist + 1, ans);
+unsigned long long result = maxi(id + 1 - ans[dist], maxi(leftCount, rightCount));
+return result;
+}
+int widthOfBinaryTree(TreeNode* root) {
+vector<unsigned long long> ans; // left most nodes in each level
+return dfs(root, 1, 0, ans);
+}
+};
