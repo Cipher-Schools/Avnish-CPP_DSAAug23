@@ -1,0 +1,110 @@
+class Solution {
+public:
+    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
+        vector<pair<int, string>> arr;
+        int n = names.size();
+        for(int i = 0; i < n; i++){
+            arr.push_back({heights[i], names[i]});
+        }
+        sort(arr.rbegin(), arr.rend());
+        for(int i = 0; i < n; i++){
+            names[i] = arr[i].second;
+        }
+        return names;
+    }
+};
+class Solution {
+public:
+    static bool comp(pair<string, int>& a, pair<string, int>& b){
+        if(a.second > b.second){
+            return true;
+        }
+        return false;
+    }
+    vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
+        vector<pair<string, int>> arr;
+        int n = names.size();
+        for(int i = 0; i < n; i++){
+            arr.push_back({names[i], heights[i]});
+        }
+        sort(arr.begin(), arr.end(), comp);
+        for(int i = 0; i < n; i++){
+            names[i] = arr[i].first;
+        }
+        return names;
+    }
+};
+class Solution {
+public:
+    int maxProductDifference(vector<int>& arr) {
+        sort(arr.begin(), arr.end());
+        int n = arr.size();
+        int a = arr[0];        
+        int b = arr[1];
+        int c = arr[n - 2];
+        int d = arr[n - 1];
+        return ((c*d) - (a*b));
+    }
+};
+class Solution {
+public:
+    int maxProductDifference(vector<int>& arr) {
+        int big1 = INT_MIN, big2 = INT_MIN;
+        int small1 = INT_MAX, small2 = INT_MAX;
+        for(int i: arr){
+            if(big1 < i){
+                big2 = big1;
+                big1 = i;
+            }
+            else if(big2 < i){
+                big2 = i;
+            }
+            if(small1 > i){
+                small2 = small1;
+                small1 = i;
+            }
+            else if(small2 > i){
+                small2 = i;
+            }
+        }
+        cout << big1 << " " << big2 << endl;
+        cout << small1 << " " << small2 << endl;
+        return ((big1 * big2) - (small1 * small2));
+    }
+};
+
+class Solution {
+public:
+    int arithmeticTriplets(vector<int>& arr, int diff) {
+        map<int, bool> m;
+        for(int ele: arr){
+            m[ele] = true;
+        }
+        int ans = 0;
+        for(int b: arr){
+            // {a, b, c}
+            int a = b - diff;
+            int c = b + diff;
+            if(m[a] and m[c]){
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    int mostWordsFound(vector<string>& arr) {
+        int ans = 0;
+        for(string str: arr){
+            int space = 0;
+            for(char ch: str){
+                if(ch == ' '){
+                    space++;
+                }
+            }
+            ans = max(ans, space + 1);
+        }
+        return ans;
+    }
+};
