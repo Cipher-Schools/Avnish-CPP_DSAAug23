@@ -1,0 +1,133 @@
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        map<char, char> m;
+        char c = 'a';
+        for(char ch: key){
+            if(ch == ' '){
+                continue;
+            }
+            // valid char from a to z
+            if(m.find(ch) == m.end()){ // not found
+            o    m[ch] = c;
+                c++;
+            }
+        }
+        string ans;
+        for(char ch: message){
+            if(ch == ' '){
+                ans += " ";
+            }
+            else{
+                // ch = 'v';
+                ans += m[ch];
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        char arr[26];
+        for(int i = 0; i < 26; i++){
+            arr[i] = '#';
+        }
+        char c = 'a';
+        for(char ch: key){
+            if(ch != ' ' and arr[ch - 'a'] == '#'){
+                arr[ch - 'a'] = c++;
+            }
+        }
+        string ans;
+        for(char ch: message){
+            if(ch != ' '){
+                ans += arr[ch - 'a'];
+            }else{
+                ans += ' ';
+            }
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        int arr[26];
+        memset(arr, -1, sizeof arr);
+        int c = 0;
+        for(char ch: key){
+            if(ch != ' ' and arr[ch - 'a'] == -1){
+                arr[ch - 'a'] = c++;
+            }
+        }
+        string ans;
+        for(char ch: message){
+            if(ch != ' '){
+                char c = arr[ch - 'a'] + 'a';
+                ans += c;
+            }else{
+                ans += ' ';
+            }
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    string decodeMessage(string key, string message) {
+        int arr[26];
+        memset(arr, -1, sizeof arr);
+        int c = 0;
+        for(char ch: key){
+            if(ch != ' ' and arr[ch - 'a'] == -1){
+                arr[ch - 'a'] = c++;
+            }
+        }
+        string ans;
+        for(char ch: message){
+            ans += (ch == ' ' ? ' ' : (arr[ch - 'a'] + 'a'));
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    int ans = 0;
+    void dfs(vector<int>& str, int start = 0, int xorr = 0){
+        if(start >= str.size()){
+            ans += xorr;
+            return ;
+        }
+        // not take
+        dfs(str, start + 1, xorr);
+        // take
+        dfs(str, start + 1, xorr ^ str[start]);
+    }
+    int subsetXORSum(vector<int>& nums) {
+        ans = 0;
+        dfs(nums);
+        return ans;
+    }
+};
+class Solution {
+public:
+    
+    int subsetXORSum(vector<int>& nums) {
+        int ans = 0;
+        int xorr;
+        int n = nums.size();
+        for(int i = 0; i < ((1 << n)); i++){
+            xorr = 0;
+            for(int j = 0; j < n; j++){
+                if(i & (1 << j)){
+                    xorr ^= nums[j];
+                }
+            }
+            ans += xorr;
+        }
+        return ans;
+    }
+};
