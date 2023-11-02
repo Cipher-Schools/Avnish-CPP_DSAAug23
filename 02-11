@@ -1,0 +1,97 @@
+class Solution {
+public:
+    static int NoOfOnes(int n){
+        int ones = 0;
+        while(n){
+            int rsb = n & (-n);
+            n -= rsb;
+            ones++;
+        }
+        return ones;
+    }
+    static bool comp(int a, int b){
+        int count1 = NoOfOnes(a);
+        int count2 = NoOfOnes(b);
+        if(count1 < count2){
+            return true; // a will comes first
+        }
+        else if(count1 == count2){
+            return (a < b);
+        }
+        return false;
+    }
+    vector<int> sortByBits(vector<int>& arr) {
+        sort(arr.begin(), arr.end(), comp);
+        return arr;
+    }
+};
+
+class Solution {
+public:
+    vector<int> diStringMatch(string s) {
+        vector<int> ans;
+        int i = 0;
+        int d = s.length();
+        for(char ch: s){
+            if(ch == 'I'){
+                ans.push_back(i++);
+            }
+            else{
+                ans.push_back(d--);
+            }
+        }
+        ans.push_back(i++);
+        return ans;
+    }
+};
+class Solution {
+public:
+    int prefixCount(vector<string>& words, string pref) {
+        int ans = 0;
+        for(string str: words){
+            string s = str.substr(0, pref.length());
+            if(s == pref){
+                ans++;
+            }
+        }
+        return ans;
+    }
+};
+class Solution{
+    public:
+    vector<long long> nextLargerElement(vector<long long> arr, int n){
+        vector<long long> ans(n, -1);
+        stack<long long> s;
+        time = O(N)liner
+        space = O(N) 
+        // now we are pushing index so think acc.
+        s.push(0);
+        for(int i = 1; i < n; i++){
+            if(s.empty()){
+                s.push(i);
+                continue;
+            }
+            while(!s.empty() and arr[s.top()] < arr[i]){
+                ans[s.top()] = arr[i];
+                s.pop();
+            }
+            s.push(i);
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    vector<int> finalPrices(vector<int>& prices) {
+        stack<int> s;
+        vector<int> ans = prices;
+        for(int i = 0; i < prices.size(); i++){
+            while(!s.empty() and prices[s.top()] >= prices[i]){
+                ans[s.top()] = prices[s.top()] - prices[i];
+                s.pop();
+            }
+            s.push(i);
+        }
+        return ans;
+    }
+};
