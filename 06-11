@@ -1,0 +1,119 @@
+class Solution {
+public:
+    int countNegatives(vector<vector<int>>& arr) {
+        int rows = arr.size();
+        int cols = arr[0].size();
+        int ans = 0;
+        for(int i = 0; i < rows; i++){
+            int low = 0;
+            int high = cols;
+            while(low < high){
+                int mid = (low + high) / 2;
+                if(arr[i][mid] < 0){
+                    high = mid;
+                }
+                else{
+                    low = mid + 1;
+                }
+            }
+            ans += (cols - high);
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast and fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+};
+
+class Solution {
+public:
+    vector<int> sortArrayByParity(vector<int>& arr) {
+        int n = arr.size();
+        int start = 0;
+        int end = 0;
+        while(end < n){
+            if(arr[end] % 2 == 0){ // even no
+                swap(arr[start++], arr[end++]);
+            }
+            else{
+                end++;
+            }
+        }
+        return arr;
+    }
+};
+
+class Solution {
+public:
+    int heightChecker(vector<int>& arr) {
+        int ans = 0;
+        vector<int> temp = arr;
+        sort(temp.begin(), temp.end());
+        for(int i = 0; i < arr.size(); i++){
+            if(arr[i] != temp[i]) ans++;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int heightChecker(vector<int>& heights) {
+        int mismatch = 0;
+        vector<int> freq(101, 0);
+        for(int i: heights){
+            freq[i]++;
+        }
+        int i = 0, j = 0;
+        while(i < 101){
+            if(freq[i] == 0){ // ele is absent
+                i++;
+            }
+            else{
+                // ele is present
+                if(i != heights[j]){
+                    mismatch++;
+                }
+                j++; 
+                freq[i]--;
+            }
+        }
+        return mismatch;
+    }
+};
+
+class Solution {
+public:
+    void dfs(ListNode* head, ListNode*& last){
+        if(!head){
+            return ;
+        }
+        dfs(head->next, last);
+        if(head != NULL and head->next == NULL){
+            last = head;
+        }
+        else{
+            head->next->next = head;
+        }
+    }
+    ListNode* reverseList(ListNode* head) {
+        ListNode* last = head;
+        ListNode* cur = head;
+        dfs(head, last);
+        if(head){
+            head->next = NULL;
+        }
+        return last;
+    }
+};
+
