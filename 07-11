@@ -1,0 +1,151 @@
+class Solution {
+public:
+    int minCostClimbingStairs(vector<int>& cost) {
+        int n = cost.size();
+        int first = cost[0];
+        int second = cost[1];
+        if(n <= 2){
+            return min(first, second);
+        }
+        for(int i = 2; i < n; i++){
+            int cur = cost[i] + min(first, second);
+            first = second;
+            second = cur;
+        }
+        return min(first, second);
+    }
+};
+
+class Solution {
+public:
+    int dp[1001];
+    int dfs(vector<int>& arr, int index){
+        if(index >= arr.size()){
+            return 0;
+        }
+        if(dp[index] != -1){
+            return dp[index];
+        }
+        return dp[index] =  (arr[index] + min(dfs(arr, index + 1), 
+                                dfs(arr, index + 2)));
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        memset(dp, -1, sizeof dp);
+        int cost0 = dfs(cost, 0);
+        int cost1 = dfs(cost, 1);
+        return min(cost0, cost1);
+    }
+};
+
+class Solution {
+public:
+    int dfs(vector<int>& arr, int index){
+        if(index >= arr.size()){
+            return 0;
+        }
+        return (arr[index] + min(dfs(arr, index + 1), 
+                                dfs(arr, index + 2)));
+    }
+    int minCostClimbingStairs(vector<int>& cost) {
+        int cost0 = dfs(cost, 0);
+        int cost1 = dfs(cost, 1);
+        return min(cost0, cost1);
+    }
+};
+
+class Solution {
+public:
+    bool checkString(string s) {
+        int firstB = -1;
+        int lastA = -1;
+        for(int i = 0; i < s.length(); i++){
+            if(s[i] == 'a' and firstB != -1){
+                return false;
+            }
+            else if(s[i] == 'a'){
+                lastA = i;
+            }
+            else if(s[i] == 'b' and firstB == -1){
+                firstB = i;
+            }
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    bool checkString(string s) {
+        int firstB = -1;
+        int lastA = -1;
+        for(int i = 0; i < s.length(); i++){
+            if(s[i] == 'a'){
+                lastA = i;
+            }
+            else if(s[i] == 'b' and firstB == -1){
+                firstB = i;
+            }
+        }
+        if(lastA != -1 and firstB != -1 and lastA > firstB){
+            return false;
+        }
+        return true;
+    }
+};
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ans = 0;
+        for(int ele: nums){
+            ans ^= ele;
+        }
+        return ans;
+    }
+};
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        map<int, int> m;
+        for(int i: nums){
+            m[i]++;
+        }
+        for(int ele: nums){
+            if(m[ele] == 1){
+                return (ele);
+            }
+        }
+        return -1;
+    }
+};
+
+class Solution {
+public:
+    static bool comp(pair<int, int> a, pair<int, int> b){
+        if(a.second < b.second or (a.second == b.second and a.first < b.first)){
+            return true;
+        }
+        return false;
+    }
+    vector<int> kWeakestRows(vector<vector<int>>& mat, int k) {
+        vector<pair<int, int>> arr;
+        for(int i = 0; i < mat.size(); i++){
+            int soldier = 0;
+            for(int ele: mat[i]){
+                if(ele == 1){
+                    soldier++;
+                }else{
+                    break;
+                }
+            }
+            arr.push_back({i, soldier});
+        }
+        vector<int> ans;
+        sort(arr.begin(), arr.end(), comp);
+        for(int i = 0; i < k; i++){
+            ans.push_back(arr[i].first);
+        }
+        return ans;
+    }
+};
