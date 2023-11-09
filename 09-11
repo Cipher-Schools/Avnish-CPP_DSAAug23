@@ -1,0 +1,130 @@
+class Solution {
+public:
+    int getHeight(TreeNode* root, bool direction){
+        int ht = 0;
+        while(root){
+            ht++;
+            if(direction){
+                root = root->left;    
+            }
+            else{
+                root = root->right;
+            }
+        }
+        return ht;
+    }
+    int dfs(TreeNode* root){
+        if(!root){
+            return 0;
+        }
+        // true is for left;
+        // false is for right
+        int lc = getHeight(root, true);
+        int rc = getHeight(root, false);
+        if(lc == rc){
+            return ((1 << rc) - 1);
+        }
+        return (1 + dfs(root->left) + dfs(root->right));
+    }
+    int countNodes(TreeNode* root) {
+        return dfs(root);
+    }
+};
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int ans = 0;
+        for(int i = 1; i < prices.size(); i++){
+            if(prices[i] > prices[i - 1]){
+                ans += prices[i] - prices[i - 1];    
+            }
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head){
+            return head;
+        }
+        ListNode* cur = head;
+        ListNode* temp = cur;
+        while(temp){
+            
+            if(temp->val != cur->val){
+                cur->next = temp;
+                cur = cur->next;
+            }
+            temp = temp->next;
+        }
+        cur->next = NULL;
+        return head;
+    }
+};
+class Solution {
+public:
+    bool validMountainArray(vector<int>& arr) {
+        int lp = -1;
+        int rp = -1;
+        for(int i = 1; i < arr.size(); i++){
+            if(arr[i] > arr[i - 1] ){
+                lp = i;
+            }
+            else{
+                break;
+            }
+        }
+        for(int i = arr.size() - 1; i >= 1; i--){
+            if(arr[i] < arr[i - 1]){
+                rp = i;
+            }
+            else{
+                break;
+            }
+        }
+        return (lp == (rp - 1));
+    }
+};
+class Solution {
+public:
+    int titleToNumber(string columnTitle) {
+        int ans = 0;
+        int n = columnTitle.length();
+        for(int i = 0; i < n; i++){
+            ans = (ans * 26) + (columnTitle[i] - 'A' + 1);
+        }
+        return ans;
+    }
+};
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode* result = NULL;
+        if(l1 == NULL){
+            return l2;
+        }
+        if(l2 == NULL){
+            return l1;
+        }
+        if(l1->val <= l2->val){
+            result = l1;
+            result->next = mergeTwoLists(l1->next, l2);
+        }
+        else{
+            result = l2;
+            result->next = mergeTwoLists(l1, l2->next);
+        }
+        return result;
+    }
+};
+class Solution {
+public:
+    vector<int> distributeCandies(int candies, int num_people) {
+        vector<int> ans(num_people);
+        for(int i = 0; candies > 0; candies -= ++i){
+            ans[i % num_people] += min(i + 1, candies);
+        }
+        return ans;
+    }
+};
