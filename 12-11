@@ -1,0 +1,82 @@
+class Solution {
+public:
+    int getLeftMax(TreeNode* root){
+        while(root->right){
+            root = root->right;
+        }
+        return root->val;
+    }
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root){
+            return root;
+        }
+        if(root->val < key){
+            root->right = deleteNode(root->right, key);
+        }
+        else if(root->val > key){
+            root->left = deleteNode(root->left, key);
+        }
+        else{
+            if(!root->left and !root->right){ // no left and right subtree
+                return NULL;
+            }
+            else if(!root->left and root->right != NULL){ // no left and right subtree
+                return root->right;
+            }
+            else if(root->left and !root->right){ // no left and right subtree
+                return root->left;
+            }
+            else{
+                // both are not null
+                int leftMax = getLeftMax(root->left);
+                root->val = leftMax;
+                root->left = deleteNode(root->left, leftMax);
+            }
+        }
+        return root;
+    }
+};
+
+class Solution {
+public:
+    int findLHS(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        int maxlen = 0, left = 0;
+        for (int right = 0; right < nums.size(); right++){
+            while (nums[right] - nums[left] > 1)
+                left++;
+            
+            if (nums[right] - nums[left] == 1)
+                maxlen = max(maxlen, right - left + 1);
+        }
+        return maxlen;
+    }
+};
+
+
+class Solution {
+public:
+    vector<vector<int>> diagonalSort(vector<vector<int>>& arr) {
+        int n = arr.size();
+        int m = arr[0].size();
+        map<int, vector<int>> mp;
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                int key = j - i;
+                int val = arr[i][j];
+                mp[key].push_back(val);
+            }
+        }
+        for(int k = -(n - 1); k < m; k++){
+            sort(mp[k].rbegin(), mp[k].rend());
+        }
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < m; j++){
+                int key = j - i;
+                arr[i][j] = mp[key].back();
+                mp[key].pop_back();
+            }
+        }
+        return arr;
+    }
+};
