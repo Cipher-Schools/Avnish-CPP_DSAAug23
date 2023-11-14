@@ -1,0 +1,84 @@
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int source = 0;
+        for(int current = 0; source < nums.size() and source <= current; ++source){
+            current = max(source +  nums[source], current);
+        }
+        if(source == nums.size()){
+            return true;
+        }
+        return false;
+        // return (source == nums.size());
+    }
+};
+
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int ans = 0;
+        for(int i = nums.size() - 2; i >= 0; i--){
+            ans++;
+            if(nums[i] >= ans){
+                ans = 0;
+            }
+        }
+        if(ans == 0){
+            return true;
+        }
+        return false;
+    }
+};
+
+class Solution {
+public:
+    bool dfs(int currentIndex, vector<int>& arr, vector<int>& dp){
+        if(currentIndex == arr.size() - 1){
+            return true;
+        }
+        if(dp[currentIndex] != -1){
+            return dp[currentIndex];
+        }
+        if(arr[currentIndex] == 0){
+            return false;
+        }
+        int maxReach = currentIndex + arr[currentIndex];
+        for(int nextIndex = currentIndex + 1; nextIndex <= maxReach; nextIndex++){
+            if(nextIndex < arr.size() and dfs(nextIndex, arr, dp)){
+                dp[currentIndex] = true;
+                return dp[currentIndex];
+            }
+        }
+        dp[currentIndex] = false;
+        return dp[currentIndex];
+    }
+    bool canJump(vector<int>& nums) {
+        // 0 -> false; 
+        // 1 -> true;
+        int n = nums.size();
+        vector<int> dp(n, -1);
+        return dfs(0, nums, dp);
+    }
+};
+
+class Solution {
+public:
+    bool dfs(int currentIndex, vector<int>& arr){
+        if(currentIndex == arr.size() - 1){
+            return true;
+        }
+        if(arr[currentIndex] == 0){
+            return false;
+        }
+        int maxReach = currentIndex + arr[currentIndex];
+        for(int nextIndex = currentIndex + 1; nextIndex <= maxReach; nextIndex++){
+            if(nextIndex < arr.size() and dfs(nextIndex, arr)){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool canJump(vector<int>& nums) {
+        return dfs(0, nums);
+    }
+};
