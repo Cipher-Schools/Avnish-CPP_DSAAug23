@@ -1,0 +1,42 @@
+class Solution {
+public:
+    bool checkCond1(string puzz, string word){
+        for(char ch: word){
+            if(ch == puzz[0]){
+                return true;
+            }
+        }
+        return false;
+    }
+    bool checkCond2(string puzz, string word){
+        for(char ch: word){
+            bool found = false;
+            for(char c: puzz){
+                if(ch == c){
+                    found = true;
+                    break;
+                }
+            }
+            if(!found){
+                return false;
+            }
+        }
+        return true;
+    }
+    vector<int> findNumOfValidWords(vector<string>& words, vector<string>& puzzles) {
+        vector<int> ans;
+        for(string puzz: puzzles){
+            int valid = 0;
+            for(string word: words){
+                bool ans1 = checkCond1(puzz, word); // for first ch check
+                bool ans2 = checkCond2(puzz, word); // for all chs presence in puzz or not
+                cout << puzz << " " << word << " " << ans1 << " " << ans2 << endl;
+                if(ans1 == true and ans2 == true){
+                    valid++;
+                }
+            }
+            ans.push_back(valid);
+        }
+        return ans;
+    }
+};
